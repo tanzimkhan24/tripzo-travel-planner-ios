@@ -13,6 +13,11 @@
 		337230612BB8CD7A00E3E828 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3372305F2BB8CD7A00E3E828 /* Main.storyboard */; };
 		337230632BB8CD7B00E3E828 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 337230622BB8CD7B00E3E828 /* Assets.xcassets */; };
 		337230662BB8CD7B00E3E828 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 337230642BB8CD7B00E3E828 /* LaunchScreen.storyboard */; };
+		3372306E2BB8CEBD00E3E828 /* logo_travel-removebg-preview 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3372306D2BB8CEBD00E3E828 /* logo_travel-removebg-preview 1.png */; };
+		337230712BB8D20A00E3E828 /* Rectangle 862.png in Resources */ = {isa = PBXBuildFile; fileRef = 337230702BB8D20A00E3E828 /* Rectangle 862.png */; };
+		337230732BB8D28A00E3E828 /* Subtract.png in Resources */ = {isa = PBXBuildFile; fileRef = 337230722BB8D28A00E3E828 /* Subtract.png */; };
+		33CC6D242BD66A0300F19388 /* SemiCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC6D232BD66A0300F19388 /* SemiCircleView.swift */; };
+		33CC6D272BD6719100F19388 /* StartPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC6D262BD6719100F19388 /* StartPageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,11 @@
 		337230622BB8CD7B00E3E828 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		337230652BB8CD7B00E3E828 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		337230672BB8CD7B00E3E828 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3372306D2BB8CEBD00E3E828 /* logo_travel-removebg-preview 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_travel-removebg-preview 1.png"; sourceTree = "<group>"; };
+		337230702BB8D20A00E3E828 /* Rectangle 862.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rectangle 862.png"; sourceTree = "<group>"; };
+		337230722BB8D28A00E3E828 /* Subtract.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Subtract.png; sourceTree = "<group>"; };
+		33CC6D232BD66A0300F19388 /* SemiCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemiCircleView.swift; sourceTree = "<group>"; };
+		33CC6D262BD6719100F19388 /* StartPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,8 +66,11 @@
 		337230582BB8CD7A00E3E828 /* Tripzo -Travel Planner Application */ = {
 			isa = PBXGroup;
 			children = (
-				337230592BB8CD7A00E3E828 /* AppDelegate.swift */,
+				33CC6D252BD6716100F19388 /* Start Screens */,
+				33CC6D222BD669A800F19388 /* Custom Views */,
+				3372306F2BB8CEC600E3E828 /* Images */,
 				3372305B2BB8CD7A00E3E828 /* SceneDelegate.swift */,
+				337230592BB8CD7A00E3E828 /* AppDelegate.swift */,
 				3372305D2BB8CD7A00E3E828 /* ViewController.swift */,
 				3372305F2BB8CD7A00E3E828 /* Main.storyboard */,
 				337230622BB8CD7B00E3E828 /* Assets.xcassets */,
@@ -65,6 +78,32 @@
 				337230672BB8CD7B00E3E828 /* Info.plist */,
 			);
 			path = "Tripzo -Travel Planner Application";
+			sourceTree = "<group>";
+		};
+		3372306F2BB8CEC600E3E828 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				337230722BB8D28A00E3E828 /* Subtract.png */,
+				337230702BB8D20A00E3E828 /* Rectangle 862.png */,
+				3372306D2BB8CEBD00E3E828 /* logo_travel-removebg-preview 1.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		33CC6D222BD669A800F19388 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				33CC6D232BD66A0300F19388 /* SemiCircleView.swift */,
+			);
+			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		33CC6D252BD6716100F19388 /* Start Screens */ = {
+			isa = PBXGroup;
+			children = (
+				33CC6D262BD6719100F19388 /* StartPageViewController.swift */,
+			);
+			path = "Start Screens";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,8 +165,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				337230662BB8CD7B00E3E828 /* LaunchScreen.storyboard in Resources */,
+				337230732BB8D28A00E3E828 /* Subtract.png in Resources */,
 				337230632BB8CD7B00E3E828 /* Assets.xcassets in Resources */,
 				337230612BB8CD7A00E3E828 /* Main.storyboard in Resources */,
+				3372306E2BB8CEBD00E3E828 /* logo_travel-removebg-preview 1.png in Resources */,
+				337230712BB8D20A00E3E828 /* Rectangle 862.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +180,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33CC6D272BD6719100F19388 /* StartPageViewController.swift in Sources */,
 				3372305E2BB8CD7A00E3E828 /* ViewController.swift in Sources */,
 				3372305A2BB8CD7A00E3E828 /* AppDelegate.swift in Sources */,
+				33CC6D242BD66A0300F19388 /* SemiCircleView.swift in Sources */,
 				3372305C2BB8CD7A00E3E828 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,8 +338,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Tripzo -Travel Planner Application/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -321,8 +366,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Tripzo -Travel Planner Application/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
