@@ -9,7 +9,7 @@ import UIKit
 
 class SemiCircleView: UIView {
     
-    private let curveHeight: CGFloat = 70.0
+    let curveHeight: CGFloat = 70.0
 
         override func draw(_ rect: CGRect) {
             super.draw(rect)

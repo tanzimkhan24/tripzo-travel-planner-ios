@@ -9,7 +9,8 @@ import UIKit
 
 class StartPageViewController: UIViewController {
     
-
+    @IBOutlet weak var semiCircleView: SemiCircleView!
+    
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBOutlet weak var pageControl: UIPageControl!
@@ -46,6 +47,10 @@ class StartPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        collectionView.backgroundColor = .clear
+        
+        view.bringSubviewToFront(semiCircleView)
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -89,5 +94,7 @@ extension StartPageViewController: UICollectionViewDelegate, UICollectionViewDat
             let width = scrollView.frame.width
             currentPage = Int(scrollView.contentOffset.x / width)
     }
+    
+    
     
 }

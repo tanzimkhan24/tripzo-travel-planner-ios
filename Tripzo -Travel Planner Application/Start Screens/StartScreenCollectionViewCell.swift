@@ -11,6 +11,7 @@ class StartScreenCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var startTitle: UILabel!
     
+    @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var startDescription: UILabel!
     
@@ -18,5 +19,8 @@ class StartScreenCollectionViewCell: UICollectionViewCell {
         
         startTitle.text = slide.title
         startDescription.text = slide.description
+        imageView.image = slide.image
+        self.sendSubviewToBack(imageView)
+        
     }
 }
