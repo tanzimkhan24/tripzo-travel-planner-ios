@@ -6,6 +6,7 @@
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,70 +21,105 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6yy-V8-xmO" customClass="SemiCircleView" customModule="Tripzo__Travel_Planner_Application" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="453" width="393" height="399"/>
                                 <subviews>
-                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Vbf-E3-eNx">
-                                        <rect key="frame" x="16" y="276.66666666666663" width="361" height="26"/>
-                                        <color key="pageIndicatorTintColor" systemColor="opaqueSeparatorColor"/>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7H7-br-V4Q">
+                                        <rect key="frame" x="0.0" y="41" width="393" height="211"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="L6j-cS-bwe">
+                                            <size key="itemSize" width="378" height="205"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="startScreenCollectionViewCell" id="EBH-C0-M1A" customClass="StartScreenCollectionViewCell" customModule="Tripzo__Travel_Planner_Application" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="3" width="378" height="205"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="ZoT-hN-vki">
+                                                    <rect key="frame" x="0.0" y="0.0" width="378" height="205"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="qna-Ab-suf">
+                                                            <rect key="frame" x="16" y="0.0" width="346" height="189"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discover the world" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yt6-qZ-v0l">
+                                                                    <rect key="frame" x="45.666666666666671" y="0.0" width="254.66666666666663" height="152.66666666666666"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="31"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tripzo Simplifies your travel experience" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FRD-CL-Hwf">
+                                                                    <rect key="frame" x="24.666666666666657" y="168.66666666666666" width="296.66666666666674" height="20.333333333333343"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="qna-Ab-suf" secondAttribute="bottom" constant="16" id="D5l-xg-nOg"/>
+                                                        <constraint firstItem="qna-Ab-suf" firstAttribute="top" secondItem="ZoT-hN-vki" secondAttribute="top" id="WME-XV-vSn"/>
+                                                        <constraint firstItem="qna-Ab-suf" firstAttribute="leading" secondItem="ZoT-hN-vki" secondAttribute="leading" constant="16" id="WdY-hT-jxO"/>
+                                                        <constraint firstAttribute="trailing" secondItem="qna-Ab-suf" secondAttribute="trailing" constant="16" id="rfJ-za-72y"/>
+                                                    </constraints>
+                                                </collectionViewCellContentView>
+                                                <size key="customSize" width="378" height="205"/>
+                                                <connections>
+                                                    <outlet property="startDescription" destination="FRD-CL-Hwf" id="DUz-J7-WCb"/>
+                                                    <outlet property="startTitle" destination="yt6-qZ-v0l" id="JEH-D9-Z8U"/>
+                                                </connections>
+                                            </collectionViewCell>
+                                        </cells>
+                                    </collectionView>
+                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="332-lw-Zaq">
+                                        <rect key="frame" x="138.66666666666666" y="272.33333333333337" width="115.66666666666666" height="25.666666666666686"/>
+                                        <color key="pageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="currentPageIndicatorTintColor" name="AccentColor"/>
-                                        <connections>
-                                            <action selector="pageControlDidChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="pl7-WV-csz"/>
-                                        </connections>
                                     </pageControl>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tripzo curates travel gems just for you. Get personalised recommendations on destination and start building your dream journey." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1EQ-tl-nSp">
-                                        <rect key="frame" x="16" y="184" width="361" height="61"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.44282719279999999" green="0.44282719279999999" blue="0.44282719279999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gEv-X3-yNY">
-                                        <rect key="frame" x="23" y="322.66666666666663" width="347" height="34.333333333333314"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E80-Yr-JkT">
+                                        <rect key="frame" x="121.66666666666669" y="307" width="150" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="1gY-u7-Gcg"/>
+                                            <constraint firstAttribute="width" constant="150" id="495-As-PYw"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="l0q-vU-ics"/>
+                                        </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Continue" cornerStyle="capsule"/>
                                         <connections>
-                                            <segue destination="N3y-YD-M07" kind="show" id="kdk-mE-2Na"/>
+                                            <action selector="nextButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4lB-fO-Q0H"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discover Your Next Adventure" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fi4-FF-OCG">
-                                        <rect key="frame" x="50" y="82" width="293" height="69.333333333333314"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="293" id="JZg-8F-6RJ"/>
-                                            <constraint firstAttribute="height" constant="69.329999999999998" id="ayI-Cl-NR0"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="29"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailingMargin" secondItem="gEv-X3-yNY" secondAttribute="trailing" constant="15" id="8IU-qb-tOv"/>
-                                    <constraint firstItem="gEv-X3-yNY" firstAttribute="top" secondItem="Vbf-E3-eNx" secondAttribute="bottom" constant="20" id="Cap-X8-vEJ"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="Vbf-E3-eNx" secondAttribute="trailing" constant="8" id="F9t-bx-BF7"/>
-                                    <constraint firstItem="Vbf-E3-eNx" firstAttribute="leading" secondItem="6yy-V8-xmO" secondAttribute="leadingMargin" constant="8" id="FVz-aF-cC8"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="Fi4-FF-OCG" secondAttribute="trailing" constant="42" id="OEV-Pj-1a9"/>
-                                    <constraint firstItem="gEv-X3-yNY" firstAttribute="leading" secondItem="6yy-V8-xmO" secondAttribute="leadingMargin" constant="15" id="QAe-9U-JaN"/>
-                                    <constraint firstItem="Fi4-FF-OCG" firstAttribute="top" secondItem="6yy-V8-xmO" secondAttribute="topMargin" constant="74" id="Suj-wG-wMX"/>
-                                    <constraint firstItem="1EQ-tl-nSp" firstAttribute="leading" secondItem="6yy-V8-xmO" secondAttribute="leadingMargin" constant="8" id="Yzj-sl-IO0"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="1EQ-tl-nSp" secondAttribute="trailing" constant="8" id="Z3V-dP-oK4"/>
-                                    <constraint firstItem="Fi4-FF-OCG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6yy-V8-xmO" secondAttribute="leadingMargin" id="ch0-0e-eHc"/>
-                                    <constraint firstItem="gEv-X3-yNY" firstAttribute="bottom" secondItem="6yy-V8-xmO" secondAttribute="bottomMargin" id="oae-2W-pRT"/>
-                                    <constraint firstItem="1EQ-tl-nSp" firstAttribute="top" secondItem="Fi4-FF-OCG" secondAttribute="bottom" constant="32.670000000000002" id="z0d-LB-TJQ"/>
+                                    <constraint firstItem="E80-Yr-JkT" firstAttribute="top" secondItem="332-lw-Zaq" secondAttribute="bottom" constant="9" id="5Pb-UH-UVk"/>
+                                    <constraint firstItem="E80-Yr-JkT" firstAttribute="bottom" secondItem="6yy-V8-xmO" secondAttribute="bottomMargin" id="Kyc-jm-bJA"/>
+                                    <constraint firstItem="E80-Yr-JkT" firstAttribute="centerX" secondItem="6yy-V8-xmO" secondAttribute="centerX" id="Udf-Mh-1PV"/>
+                                    <constraint firstItem="332-lw-Zaq" firstAttribute="centerX" secondItem="6yy-V8-xmO" secondAttribute="centerX" id="kbo-Px-URV"/>
+                                    <constraint firstItem="E80-Yr-JkT" firstAttribute="bottom" secondItem="6yy-V8-xmO" secondAttribute="bottomMargin" id="rYG-1R-Gpq"/>
                                 </constraints>
                             </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VG0-HB-LVR">
+                                <rect key="frame" x="76" y="180" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.24865770340000001" green="0.45916622880000002" blue="0.50096940990000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="6yy-V8-xmO" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="350" id="Yti-bl-8Is"/>
-                            <constraint firstItem="6yy-V8-xmO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gCs-D2-hf0"/>
-                            <constraint firstItem="6yy-V8-xmO" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="n9I-Ev-4Gy"/>
-                            <constraint firstAttribute="bottom" secondItem="6yy-V8-xmO" secondAttribute="bottom" id="xCq-fe-5O1"/>
+                            <constraint firstItem="6yy-V8-xmO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="F3k-dy-hFV"/>
+                            <constraint firstItem="6yy-V8-xmO" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="350" id="FKG-zQ-NuB"/>
+                            <constraint firstItem="6yy-V8-xmO" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="SoI-aB-Zgt"/>
+                            <constraint firstAttribute="bottom" secondItem="6yy-V8-xmO" secondAttribute="bottom" id="XaI-OZ-dTy"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="s6a-Mm-da3"/>
                     <connections>
-                        <outlet property="pageControl" destination="Vbf-E3-eNx" id="qbe-Xk-VeG"/>
-                        <outlet property="textDescription" destination="1EQ-tl-nSp" id="44g-Bu-liy"/>
-                        <outlet property="textLabel" destination="Fi4-FF-OCG" id="UfD-KW-fCJ"/>
+                        <outlet property="collectionView" destination="7H7-br-V4Q" id="csl-Sk-2ii"/>
+                        <outlet property="nextButton" destination="E80-Yr-JkT" id="xUM-kp-eKt"/>
+                        <outlet property="pageControl" destination="332-lw-Zaq" id="NXj-9T-zmP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -120,22 +156,22 @@
                                 <rect key="frame" x="50" y="68.333333333333314" width="294" height="654"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Subtract.png" translatesAutoresizingMaskIntoConstraints="NO" id="hJx-92-TUY">
-                                <rect key="frame" x="0.0" y="414" width="393" height="438"/>
+                                <rect key="frame" x="0.0" y="370" width="393" height="482"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trip Planning at the palm of your hand" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YRl-qX-GMm">
-                                <rect key="frame" x="16" y="514" width="358" height="69.333333333333371"/>
+                                <rect key="frame" x="16" y="470" width="358" height="69.333333333333371"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="29"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let us plan your trip tailoured to your preferences. Easy planning and unforgettable experience" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOH-QD-9w9">
-                                <rect key="frame" x="16" y="603" width="358" height="61"/>
+                                <rect key="frame" x="16" y="559" width="358" height="61"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.44282719279999999" green="0.44282719279999999" blue="0.44282719279999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="z5w-6F-iil">
-                                <rect key="frame" x="120" y="704" width="150" height="4"/>
+                                <rect key="frame" x="120" y="660" width="150" height="4"/>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hrj-3S-iLV">
                                 <rect key="frame" x="25" y="770" width="342" height="44"/>
@@ -186,9 +222,6 @@
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="opaqueSeparatorColor">
-            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
