@@ -21,7 +21,7 @@ class StartPageViewController: UIViewController {
     @IBAction func nextButtonClicked(_ sender: Any) {
         
         if currentPage == slides.count - 1 {
-            print("Go to next page")
+            performSegue(withIdentifier: "getStarted", sender: self)
         } else {
             currentPage += 1
             let indexPath = IndexPath(item: currentPage, section: 0)
