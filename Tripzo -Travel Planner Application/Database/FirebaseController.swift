@@ -17,6 +17,7 @@ import CryptoKit
 
 class FirebaseController: NSObject, DatabaseProtocol, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     
+    
     var listeners = MulticastDelegate<DatabaseListener>()
     var authController: Auth
     var database: Firestore
@@ -24,12 +25,15 @@ class FirebaseController: NSObject, DatabaseProtocol, ASAuthorizationControllerD
     var currentUser: FirebaseAuth.User?
     var authListenerHandle: AuthStateDidChangeListenerHandle?
     var currentNonce: String?
+    var user: Users
     
     override init() {
         
         FirebaseApp.configure()
         authController = Auth.auth()
         database = Firestore.firestore()
+        usersRef = database.collection("users")
+        user = Users()
         super.init()
         addAuthListener()
         
@@ -68,19 +72,23 @@ class FirebaseController: NSObject, DatabaseProtocol, ASAuthorizationControllerD
             }
     }
         
-    func createAccountWithEmail(email: String, password: String) {
-            authController.createUser(withEmail: email, password: password) { [weak self] authResult, error in
-                if let error = error {
-                    self?.listeners.invoke { listener in
-                        listener.onError(error)
-                    }
-                    return
-                }
-                self?.currentUser = authResult?.user
-                self?.listeners.invoke { listener in
-                    listener.onAccountCreated()
-                }
+    // In FirebaseController
+    func createAccountWithEmail(email: String, password: String, completion: @escaping (Bool, Error?) -> Void) {
+        authController.createUser(withEmail: email, password: password) { [weak self] authResult, error in
+            guard let self = self else { return }
+
+            if let error = error {
+                completion(false, error)
+                return
             }
+
+            if let user = authResult?.user {
+                self.currentUser = user
+                completion(true, nil)  // Notify the caller of success
+            } else {
+                completion(false, NSError(domain: "FirebaseAuth", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"]))
+            }
+        }
     }
     
     func signInWithApple() {
@@ -290,6 +298,34 @@ class FirebaseController: NSObject, DatabaseProtocol, ASAuthorizationControllerD
     
     func isUserSignedIn() -> Bool {
         return currentUser != nil
+    }
+    
+    func addUser(name: String, phoneNumber: String, country: String, gender: String, email: String) {
+        
+        let newUser = Users()
+        newUser.name = name
+        newUser.email = email
+        newUser.phoneNumber = phoneNumber
+        newUser.country = country
+        newUser.gender = gender
+        
+        guard let uid = authController.currentUser?.uid else {
+            print("No user uid found")
+            return
+        }
+        
+        do {
+                // Here, usersRef should be defined as a CollectionReference
+                try usersRef?.document(uid).setData(from: newUser, completion: { error in
+                    if let error = error {
+                        print("Error adding user to Firestore: \(error.localizedDescription)")
+                    } else {
+                        print("User added to Firestore with document ID: \(uid)")
+                    }
+                })
+            } catch let error {
+                print("Error serializing user: \(error.localizedDescription)")
+            }
     }
     
     

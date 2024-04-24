@@ -29,13 +29,14 @@ protocol DatabaseListener: AnyObject {
 
 protocol DatabaseProtocol: AnyObject {
     
+    func addUser(name: String, phoneNumber: String, country: String, gender: String, email: String)
     func signInWithGoogle(presentingViewController: UIViewController)
     func signInWithApple()
     func signInWithFacebook(from viewController: UIViewController)
     func signInWithEmail(email: String, password: String)
     func isUserSignedIn() -> Bool
     func signOut()
-    func createAccountWithEmail(email: String, password: String)
+    func createAccountWithEmail(email: String, password: String, completion: @escaping (Bool, Error?) -> Void)
     func addAuthListener()
     func removeAuthListener()
     func cleanup()

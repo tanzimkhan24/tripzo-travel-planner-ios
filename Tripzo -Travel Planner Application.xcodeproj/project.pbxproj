@@ -14,7 +14,8 @@
 		331A2D7F2BD8F66300E62149 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 331A2D7E2BD8F66300E62149 /* FacebookCore */; };
 		331A2D832BD8F66300E62149 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 331A2D822BD8F66300E62149 /* FacebookLogin */; };
 		331A2D862BD92E8D00E62149 /* HomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331A2D852BD92E8D00E62149 /* HomeScreenViewController.swift */; };
-		331A2D892BD94F2E00E62149 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331A2D882BD94F2E00E62149 /* User.swift */; };
+		331A2D892BD94F2E00E62149 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331A2D882BD94F2E00E62149 /* Users.swift */; };
+		331A2D8B2BD95E1A00E62149 /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331A2D8A2BD95E1A00E62149 /* CreateUserViewController.swift */; };
 		3372305A2BB8CD7A00E3E828 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337230592BB8CD7A00E3E828 /* AppDelegate.swift */; };
 		3372305C2BB8CD7A00E3E828 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3372305B2BB8CD7A00E3E828 /* SceneDelegate.swift */; };
 		337230612BB8CD7A00E3E828 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3372305F2BB8CD7A00E3E828 /* Main.storyboard */; };
@@ -69,7 +70,8 @@
 
 /* Begin PBXFileReference section */
 		331A2D852BD92E8D00E62149 /* HomeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewController.swift; sourceTree = "<group>"; };
-		331A2D882BD94F2E00E62149 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		331A2D882BD94F2E00E62149 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		331A2D8A2BD95E1A00E62149 /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
 		337230562BB8CD7A00E3E828 /* Tripzo -Travel Planner Application.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tripzo -Travel Planner Application.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		337230592BB8CD7A00E3E828 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3372305B2BB8CD7A00E3E828 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -144,7 +146,7 @@
 		331A2D872BD94F1900E62149 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				331A2D882BD94F2E00E62149 /* User.swift */,
+				331A2D882BD94F2E00E62149 /* Users.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -216,6 +218,7 @@
 				33E410D32BD81D650058EA3D /* StartScreenSlide.swift */,
 				33E410D52BD820FF0058EA3D /* StartScreenCollectionViewCell.swift */,
 				33E410F62BD8D49F0058EA3D /* SignUpScreenViewController.swift */,
+				331A2D8A2BD95E1A00E62149 /* CreateUserViewController.swift */,
 			);
 			path = "Start Screens";
 			sourceTree = "<group>";
@@ -365,9 +368,10 @@
 				33E410D42BD81D650058EA3D /* StartScreenSlide.swift in Sources */,
 				33E410F72BD8D49F0058EA3D /* SignUpScreenViewController.swift in Sources */,
 				331A2D862BD92E8D00E62149 /* HomeScreenViewController.swift in Sources */,
+				331A2D8B2BD95E1A00E62149 /* CreateUserViewController.swift in Sources */,
 				3372305A2BB8CD7A00E3E828 /* AppDelegate.swift in Sources */,
 				33CC6D242BD66A0300F19388 /* SemiCircleView.swift in Sources */,
-				331A2D892BD94F2E00E62149 /* User.swift in Sources */,
+				331A2D892BD94F2E00E62149 /* Users.swift in Sources */,
 				33E410E82BD8C6CE0058EA3D /* MulticastDelegate.swift in Sources */,
 				3372305C2BB8CD7A00E3E828 /* SceneDelegate.swift in Sources */,
 				33E410D62BD820FF0058EA3D /* StartScreenCollectionViewCell.swift in Sources */,
