@@ -7,7 +7,36 @@
 
 import UIKit
 
-class TestScreenViewController: UIViewController {
+class TestScreenViewController: UIViewController, DatabaseListener {
+    
+    weak var databaseController: DatabaseProtocol?
+    
+    var listenerType = ListenerType.all
+    
+    func onSignIn() {
+        self.performSegue(withIdentifier: "success", sender: self)
+    }
+    
+    func onAccountCreated() {
+        self.performSegue(withIdentifier: "success", sender: self)
+    }
+    
+    func onError(_ error: any Error) {
+        let message = error.localizedDescription
+        DispatchQueue.main.async {
+                self.displayMessage(title: "Error", message: message)
+            }
+    }
+    
+    func onSignOut() {
+        //
+    }
+    
+    func onNewUser(userDetails: Users?) {
+        //
+    }
+    
+    
 
     @IBOutlet weak var username: UITextField!
     
@@ -20,7 +49,9 @@ class TestScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let buttonImage = UIImage(named: "google-white.png")
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        databaseController = appDelegate?.databaseController
+        
         
         let customColor = UIColor.white
         username.layer.borderColor = customColor.cgColor
@@ -42,9 +73,7 @@ class TestScreenViewController: UIViewController {
             attributes: [NSAttributedString.Key.foregroundColor: customColor]
             )
         
-        googleButton.setBackgroundImage(buttonImage, for: .normal)
-        googleButton.setTitle("", for: .normal)
-        googleButton.imageView?.contentMode = .scaleAspectFit
+       
         
         
         
@@ -54,11 +83,79 @@ class TestScreenViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    
-    @IBAction func googleSignIn(_ sender: Any) {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        databaseController?.addListener(listener: self)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        databaseController?.removeListener(listener: self)
+    }
+    
+    @IBAction func googleSignInPressed(_ sender: Any) {
+        databaseController?.signInWithGoogle(presentingViewController: self)
+    }
+    
+    
+    
+    @IBAction func facebookSignInPressed(_ sender: Any) {
+        databaseController?.signInWithFacebook(from: self)
+    }
+    
+    
+    @IBAction func loginPressed(_ sender: Any) {
+        guard let email = username.text, !email.isEmpty, isValidEmail(email) else {
+            displayMessage(title: "Error", message: "Missing email")
+            return
+        }
 
+        guard let password = password.text, !password.isEmpty else {
+            displayMessage(title: "Error", message: "Missing password")
+            return
+        }
+        
+        databaseController?.signInWithEmail(email: email, password: password)
+    }
+    
+    
+    @IBAction func signUpPressed(_ sender: Any) {
+        
+        print("Adding user")
+
+            guard let email = username.text, !email.isEmpty, isValidEmail(email) else {
+                displayMessage(title: "Error", message: "Missing name")
+                return
+            }
+
+            guard let password = password.text, !password.isEmpty else {
+                displayMessage(title: "Error", message: "Missing country")
+                return
+            }
+        databaseController?.createAccountWithEmail(email: email, password: password) { success, error in
+            DispatchQueue.main.async {
+                if success {
+                    // User was created, now add additional details
+                    self.databaseController?.addUser(name: "name", phoneNumber: "0333333", country: "country", gender: "gender", email: email)
+                } else if let error = error {
+                    self.displayMessage(title: "Error", message: error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    func isValidEmail(_ email: String) -> Bool {
+            let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+            let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegex)
+            return emailTest.evaluate(with: email)
+    }
+    
+    func displayMessage(title: String, message: String) {
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alertController, animated: true, completion: nil)
+        }
+    
     /*
     // MARK: - Navigation
 

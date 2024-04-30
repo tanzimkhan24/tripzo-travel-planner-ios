@@ -16,6 +16,10 @@
 		331A2D862BD92E8D00E62149 /* HomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331A2D852BD92E8D00E62149 /* HomeScreenViewController.swift */; };
 		331A2D892BD94F2E00E62149 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331A2D882BD94F2E00E62149 /* Users.swift */; };
 		331A2D8B2BD95E1A00E62149 /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331A2D8A2BD95E1A00E62149 /* CreateUserViewController.swift */; };
+		331A2D912BDAE12800E62149 /* TestScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331A2D902BDAE12800E62149 /* TestScreenViewController.swift */; };
+		331A2D942BE1148C00E62149 /* google-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 331A2D932BE1148C00E62149 /* google-white.png */; };
+		331A2D962BE11B2B00E62149 /* facebook-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 331A2D952BE11B2B00E62149 /* facebook-logo.png */; };
+		331A2D982BE11B6C00E62149 /* fb-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 331A2D972BE11B6C00E62149 /* fb-logo.png */; };
 		3372305A2BB8CD7A00E3E828 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337230592BB8CD7A00E3E828 /* AppDelegate.swift */; };
 		3372305C2BB8CD7A00E3E828 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3372305B2BB8CD7A00E3E828 /* SceneDelegate.swift */; };
 		337230612BB8CD7A00E3E828 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3372305F2BB8CD7A00E3E828 /* Main.storyboard */; };
@@ -24,6 +28,10 @@
 		3372306E2BB8CEBD00E3E828 /* logo_travel-removebg-preview 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3372306D2BB8CEBD00E3E828 /* logo_travel-removebg-preview 1.png */; };
 		337230712BB8D20A00E3E828 /* Rectangle 862.png in Resources */ = {isa = PBXBuildFile; fileRef = 337230702BB8D20A00E3E828 /* Rectangle 862.png */; };
 		337230732BB8D28A00E3E828 /* Subtract.png in Resources */ = {isa = PBXBuildFile; fileRef = 337230722BB8D28A00E3E828 /* Subtract.png */; };
+		339961932BE1332800791F81 /* CategoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 339961922BE1332800791F81 /* CategoryCollectionViewCell.xib */; };
+		339961942BE1332800791F81 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339961912BE1332800791F81 /* CategoryCollectionViewCell.swift */; };
+		339961962BE1356300791F81 /* TripCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339961952BE1356300791F81 /* TripCategory.swift */; };
+		339961982BE1496600791F81 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339961972BE1496600791F81 /* CardView.swift */; };
 		33C18CF62BD8E85100D2D317 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 33C18CF52BD8E85100D2D317 /* FirebaseAnalytics */; };
 		33C18CF82BD8E85100D2D317 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 33C18CF72BD8E85100D2D317 /* FirebaseAnalyticsOnDeviceConversion */; };
 		33C18CFA2BD8E85100D2D317 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 33C18CF92BD8E85100D2D317 /* FirebaseAnalyticsSwift */; };
@@ -72,6 +80,10 @@
 		331A2D852BD92E8D00E62149 /* HomeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewController.swift; sourceTree = "<group>"; };
 		331A2D882BD94F2E00E62149 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		331A2D8A2BD95E1A00E62149 /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
+		331A2D902BDAE12800E62149 /* TestScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestScreenViewController.swift; sourceTree = "<group>"; };
+		331A2D932BE1148C00E62149 /* google-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "google-white.png"; sourceTree = "<group>"; };
+		331A2D952BE11B2B00E62149 /* facebook-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook-logo.png"; sourceTree = "<group>"; };
+		331A2D972BE11B6C00E62149 /* fb-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fb-logo.png"; sourceTree = "<group>"; };
 		337230562BB8CD7A00E3E828 /* Tripzo -Travel Planner Application.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tripzo -Travel Planner Application.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		337230592BB8CD7A00E3E828 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3372305B2BB8CD7A00E3E828 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +94,10 @@
 		3372306D2BB8CEBD00E3E828 /* logo_travel-removebg-preview 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_travel-removebg-preview 1.png"; sourceTree = "<group>"; };
 		337230702BB8D20A00E3E828 /* Rectangle 862.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rectangle 862.png"; sourceTree = "<group>"; };
 		337230722BB8D28A00E3E828 /* Subtract.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Subtract.png; sourceTree = "<group>"; };
+		339961912BE1332800791F81 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		339961922BE1332800791F81 /* CategoryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCollectionViewCell.xib; sourceTree = "<group>"; };
+		339961952BE1356300791F81 /* TripCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCategory.swift; sourceTree = "<group>"; };
+		339961972BE1496600791F81 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		33CC6D232BD66A0300F19388 /* SemiCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemiCircleView.swift; sourceTree = "<group>"; };
 		33CC6D262BD6719100F19388 /* StartPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPageViewController.swift; sourceTree = "<group>"; };
 		33E410CF2BD721220058EA3D /* Start-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Start-2.png"; sourceTree = "<group>"; };
@@ -147,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				331A2D882BD94F2E00E62149 /* Users.swift */,
+				339961952BE1356300791F81 /* TripCategory.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -191,6 +208,9 @@
 			isa = PBXGroup;
 			children = (
 				33E410DF2BD854FA0058EA3D /* Ellipse.png */,
+				331A2D952BE11B2B00E62149 /* facebook-logo.png */,
+				331A2D972BE11B6C00E62149 /* fb-logo.png */,
+				331A2D932BE1148C00E62149 /* google-white.png */,
 				33E410D72BD850110058EA3D /* logo_travel-removebg-preview 2.png */,
 				33E410DB2BD853810058EA3D /* Vector.png */,
 				33E410D92BD852700058EA3D /* Frame.png */,
@@ -219,6 +239,7 @@
 				33E410D52BD820FF0058EA3D /* StartScreenCollectionViewCell.swift */,
 				33E410F62BD8D49F0058EA3D /* SignUpScreenViewController.swift */,
 				331A2D8A2BD95E1A00E62149 /* CreateUserViewController.swift */,
+				331A2D902BDAE12800E62149 /* TestScreenViewController.swift */,
 			);
 			path = "Start Screens";
 			sourceTree = "<group>";
@@ -237,6 +258,9 @@
 			isa = PBXGroup;
 			children = (
 				331A2D852BD92E8D00E62149 /* HomeScreenViewController.swift */,
+				339961912BE1332800791F81 /* CategoryCollectionViewCell.swift */,
+				339961922BE1332800791F81 /* CategoryCollectionViewCell.xib */,
+				339961972BE1496600791F81 /* CardView.swift */,
 			);
 			path = "Home Screen";
 			sourceTree = "<group>";
@@ -343,13 +367,17 @@
 				337230662BB8CD7B00E3E828 /* LaunchScreen.storyboard in Resources */,
 				33E410E02BD854FA0058EA3D /* Ellipse.png in Resources */,
 				337230732BB8D28A00E3E828 /* Subtract.png in Resources */,
+				331A2D982BE11B6C00E62149 /* fb-logo.png in Resources */,
 				33E410DC2BD853810058EA3D /* Vector.png in Resources */,
 				33E410D82BD850110058EA3D /* logo_travel-removebg-preview 2.png in Resources */,
+				331A2D962BE11B2B00E62149 /* facebook-logo.png in Resources */,
 				337230632BB8CD7B00E3E828 /* Assets.xcassets in Resources */,
 				33E410DA2BD852700058EA3D /* Frame.png in Resources */,
 				33E410D02BD721220058EA3D /* Start-2.png in Resources */,
 				337230612BB8CD7A00E3E828 /* Main.storyboard in Resources */,
+				331A2D942BE1148C00E62149 /* google-white.png in Resources */,
 				33E410DE2BD8547D0058EA3D /* Frame (1).png in Resources */,
+				339961932BE1332800791F81 /* CategoryCollectionViewCell.xib in Resources */,
 				3372306E2BB8CEBD00E3E828 /* logo_travel-removebg-preview 1.png in Resources */,
 				337230712BB8D20A00E3E828 /* Rectangle 862.png in Resources */,
 			);
@@ -362,6 +390,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				331A2D912BDAE12800E62149 /* TestScreenViewController.swift in Sources */,
+				339961942BE1332800791F81 /* CategoryCollectionViewCell.swift in Sources */,
 				33E410E62BD8C6030058EA3D /* FirebaseController.swift in Sources */,
 				33E410E42BD8C5E40058EA3D /* DatabaseProtocol.swift in Sources */,
 				33CC6D272BD6719100F19388 /* StartPageViewController.swift in Sources */,
@@ -370,10 +400,12 @@
 				331A2D862BD92E8D00E62149 /* HomeScreenViewController.swift in Sources */,
 				331A2D8B2BD95E1A00E62149 /* CreateUserViewController.swift in Sources */,
 				3372305A2BB8CD7A00E3E828 /* AppDelegate.swift in Sources */,
+				339961962BE1356300791F81 /* TripCategory.swift in Sources */,
 				33CC6D242BD66A0300F19388 /* SemiCircleView.swift in Sources */,
 				331A2D892BD94F2E00E62149 /* Users.swift in Sources */,
 				33E410E82BD8C6CE0058EA3D /* MulticastDelegate.swift in Sources */,
 				3372305C2BB8CD7A00E3E828 /* SceneDelegate.swift in Sources */,
+				339961982BE1496600791F81 /* CardView.swift in Sources */,
 				33E410D62BD820FF0058EA3D /* StartScreenCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

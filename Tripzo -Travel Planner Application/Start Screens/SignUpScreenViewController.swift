@@ -9,6 +9,11 @@ import UIKit
 
 class SignUpScreenViewController: UIViewController, DatabaseListener {
     
+    func onNewUser(userDetails: Users?) {
+        //
+    }
+    
+    
     var listenerType = ListenerType.all
     
     func onSignOut() {
@@ -16,11 +21,17 @@ class SignUpScreenViewController: UIViewController, DatabaseListener {
     }
     
     func onSignIn() {
-        self.performSegue(withIdentifier: "success", sender: self)
+        
+    }
+
+    func isUserDataComplete(_ user: Users?) -> Bool {
+        guard let user = user else { return false }
+        // Validate if the necessary data is present
+        return user.name != nil && user.country != nil
     }
     
     func onAccountCreated() {
-        //self.performSegue(withIdentifier: "success", sender: self)
+        self.performSegue(withIdentifier: "regularSignUp", sender: self)
     }
     
     func onError(_ error: Error) {
@@ -59,15 +70,10 @@ class SignUpScreenViewController: UIViewController, DatabaseListener {
     
     @IBAction func signWithGoogle(_ sender: Any) {
         
-        print("Adding user")
-        databaseController?.signInWithGoogle(presentingViewController: self)
+        databaseController?.signInWithGoogle(presentingViewController: self) 
         
     }
     
-    
-    @IBAction func signInWithApple(_ sender: Any) {
-        databaseController?.signInWithApple()
-    }
     
     
     @IBAction func signInWithFacebook(_ sender: Any) {

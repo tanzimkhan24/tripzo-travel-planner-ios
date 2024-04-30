@@ -6,3 +6,11 @@
 //
 
 import Foundation
+import UIKit
+
+struct TripCategory {
+    
+    let id: String
+    let name: String
+    let image: UIImage
+}

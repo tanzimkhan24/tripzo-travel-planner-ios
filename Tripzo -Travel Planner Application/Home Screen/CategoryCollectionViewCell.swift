@@ -8,10 +8,16 @@
 import UIKit
 
 class CategoryCollectionViewCell: UICollectionViewCell {
+    
+    static let identifier = String(describing: CategoryCollectionViewCell.self)
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    @IBOutlet weak var categoryImage: UIImageView!
+    
+    @IBOutlet weak var categoryTitle: UILabel!
+    
+    func setup(category: TripCategory){
+        categoryTitle.text = category.name
+        categoryImage.image = category.image
     }
 
 }

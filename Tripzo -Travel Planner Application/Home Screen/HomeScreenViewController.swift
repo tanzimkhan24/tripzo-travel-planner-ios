@@ -7,7 +7,17 @@
 
 import UIKit
 
-class HomeScreenViewController: UIViewController, DatabaseListener  {
+class HomeScreenViewController: UIViewController, DatabaseListener {
+    
+    
+    @IBOutlet weak var tripCategoryCollectionView: UICollectionView!
+    
+    var categories: [TripCategory] = []
+    
+    func onNewUser(userDetails: Users?) {
+        //
+    }
+    
     
     weak var databaseController: DatabaseProtocol?
     
@@ -42,8 +52,26 @@ class HomeScreenViewController: UIViewController, DatabaseListener  {
         super.viewDidLoad()
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         databaseController = appDelegate?.databaseController
+        
+        tripCategoryCollectionView.delegate = self
+        tripCategoryCollectionView.dataSource = self
+        
+        categories = [
+            TripCategory(id: "id1", name: "Hiking", image: .screen1),
+            TripCategory(id: "id2", name: "Travel", image: .screen2),
+            TripCategory(id: "id3", name: "Flight", image: .screen1),
+            TripCategory(id: "id1", name: "Hiking", image: .screen2),
+            TripCategory(id: "id2", name: "Travel", image: .screen1),
+            TripCategory(id: "id3", name: "Flight", image: .screen2)
+        ]
+        
+        registerCells()
 
         // Do any additional setup after loading the view.
+    }
+    
+    func registerCells() {
+        tripCategoryCollectionView.register(UINib(nibName: CategoryCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier)
     }
     
     
@@ -52,6 +80,7 @@ class HomeScreenViewController: UIViewController, DatabaseListener  {
         databaseController?.signOut()
         navigationController?.popViewController(animated: true)
     }
+    
     
     func displayMessage(title: String, message: String) {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -70,4 +99,21 @@ class HomeScreenViewController: UIViewController, DatabaseListener  {
     }
     */
 
+}
+
+extension HomeScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier, for: indexPath) as! CategoryCollectionViewCell
+        
+        cell.setup(category: categories[indexPath.row])
+        
+        return cell
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return categories.count
+    }
+    
 }

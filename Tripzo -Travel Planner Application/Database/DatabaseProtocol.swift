@@ -25,13 +25,15 @@ protocol DatabaseListener: AnyObject {
     func onAccountCreated()
     func onError(_ error: Error)
     func onSignOut()
+    func onNewUser(userDetails: Users?)
 }
 
 protocol DatabaseProtocol: AnyObject {
     
-    func addUser(name: String, phoneNumber: String, country: String, gender: String, email: String)
+    func getCurrentUser(completion: @escaping (Users?) -> Void)
+    
+    func addUser(name: String?, phoneNumber: String?, country: String?, gender: String?, email: String?)
     func signInWithGoogle(presentingViewController: UIViewController)
-    func signInWithApple()
     func signInWithFacebook(from viewController: UIViewController)
     func signInWithEmail(email: String, password: String)
     func isUserSignedIn() -> Bool

@@ -22,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 didFinishLaunchingWithOptions: launchOptions
             )
             
+            
+            
             databaseController = FirebaseController()
 
             return true

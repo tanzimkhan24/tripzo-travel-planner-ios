@@ -12,6 +12,24 @@ class CreateUserViewController: UIViewController, DatabaseListener {
     
     
     
+    func onSignIn() {
+        //
+    }
+    
+    func onNewUser(userDetails: Users?) {
+        if let userDetails = userDetails {
+               // Pre-fill the form fields with userDetails
+               nameField.text = userDetails.name
+               emailField.text = userDetails.email
+               // Additional fields can be pre-filled similarly
+           }
+           // Navigate to the CreateUserViewController if not already there
+           performSegue(withIdentifier: "showCreateUser", sender: self)
+    }
+    
+    
+    
+    
     let countryPicker = UIPickerView()
     
     let countries = [
@@ -66,12 +84,9 @@ class CreateUserViewController: UIViewController, DatabaseListener {
     
     var listenerType = ListenerType.all
     
-    func onSignIn() {
-        //
-    }
     
     func onAccountCreated() {
-        self.performSegue(withIdentifier: "success", sender: self)
+        //
     }
     
     func onError(_ error: Error) {
@@ -111,6 +126,7 @@ class CreateUserViewController: UIViewController, DatabaseListener {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         databaseController?.addListener(listener: self)
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -122,47 +138,55 @@ class CreateUserViewController: UIViewController, DatabaseListener {
     @IBAction func createAccountPressed(_ sender: Any) {
         
         print("Adding user")
-        
-        guard let name = nameField.text, name.isEmpty == false else {
-            displayMessage(title: "Error", message: "Missing password")
-            return
-        }
-        
-        guard let country = countryField.text, country.isEmpty == false else {
-            displayMessage(title: "Error", message: "Missing country")
-            return
-        }
-        
-        guard let gender = genderField.text, gender.isEmpty == false else {
-            displayMessage(title: "Error", message: "Please select gender")
-            return
-        }
-        
-    
-        
-        guard let email = emailField.text, email.isEmpty == false, isValidEmail(email) else {
-            displayMessage(title: "Error", message: "Invalid Email")
-            return
-        }
-        
-        guard let password = passwordField.text, password.isEmpty == false else {
-            displayMessage(title: "Error", message: "Missing password")
-            return
-        }
-        
-        databaseController?.createAccountWithEmail(email: email, password: password) { [weak self] success, error in
+
+            guard let name = nameField.text, !name.isEmpty else {
+                displayMessage(title: "Error", message: "Missing name")
+                return
+            }
+
+            guard let country = countryField.text, !country.isEmpty else {
+                displayMessage(title: "Error", message: "Missing country")
+                return
+            }
+
+            guard let gender = genderField.text, !gender.isEmpty else {
+                displayMessage(title: "Error", message: "Please select gender")
+                return
+            }
+
+            // Check if user is already signed in through Google/Facebook
+            databaseController?.getCurrentUser { [weak self] user in
                 DispatchQueue.main.async {
-                    if success {
-                        // User was created, now add additional details
-                        self?.databaseController?.addUser(name: name, phoneNumber: "0333333", country: country, gender: gender, email: email)
+                    if let user = user {
+                        // User is already signed in, just update additional info
+                        self?.databaseController?.addUser(name: name, phoneNumber: "0333333", country: country, gender: gender, email: user.email)
                         self?.performSegue(withIdentifier: "success", sender: self)
-                    } else if let error = error {
-                        self?.displayMessage(title: "Error", message: error.localizedDescription)
+                    } else {
+                        // No user is signed in, create new account with email and password
+                        guard let email = self?.emailField.text, !email.isEmpty, self?.isValidEmail(email) ?? false else {
+                            self?.displayMessage(title: "Error", message: "Invalid Email")
+                            return
+                        }
+
+                        guard let password = self?.passwordField.text, !password.isEmpty else {
+                            self?.displayMessage(title: "Error", message: "Missing password")
+                            return
+                        }
+
+                        self?.databaseController?.createAccountWithEmail(email: email, password: password) { success, error in
+                            DispatchQueue.main.async {
+                                if success {
+                                    // User was created, now add additional details
+                                    self?.databaseController?.addUser(name: name, phoneNumber: "0333333", country: country, gender: gender, email: email)
+                                    self?.performSegue(withIdentifier: "success", sender: self)
+                                } else if let error = error {
+                                    self?.displayMessage(title: "Error", message: error.localizedDescription)
+                                }
+                            }
+                        }
                     }
                 }
             }
-        
-        
         
     }
     

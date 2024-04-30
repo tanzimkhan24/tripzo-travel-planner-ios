@@ -21,7 +21,10 @@ class StartPageViewController: UIViewController {
     @IBAction func nextButtonClicked(_ sender: Any) {
         
         if currentPage == slides.count - 1 {
-            performSegue(withIdentifier: "getStarted", sender: self)
+            let controller = storyboard?.instantiateViewController(identifier: "SignUpVC") as! UINavigationController
+            controller.modalPresentationStyle = .fullScreen
+            controller.modalTransitionStyle = .flipHorizontal
+            present(controller, animated: true, completion: nil)
         } else {
             currentPage += 1
             let indexPath = IndexPath(item: currentPage, section: 0)

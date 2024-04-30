@@ -10,13 +10,8 @@ import Firebase
 import FirebaseFirestoreSwift
 import GoogleSignIn
 import FBSDKLoginKit
-import AuthenticationServices
-import CryptoKit
 
-
-
-class FirebaseController: NSObject, DatabaseProtocol, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
-    
+class FirebaseController: NSObject, DatabaseProtocol {
     
     var listeners = MulticastDelegate<DatabaseListener>()
     var authController: Auth
@@ -28,7 +23,6 @@ class FirebaseController: NSObject, DatabaseProtocol, ASAuthorizationControllerD
     var user: Users
     
     override init() {
-        
         FirebaseApp.configure()
         authController = Auth.auth()
         database = Firestore.firestore()
@@ -36,301 +30,231 @@ class FirebaseController: NSObject, DatabaseProtocol, ASAuthorizationControllerD
         user = Users()
         super.init()
         addAuthListener()
-        
     }
     
-    func addAuthListener() {
-            authController.addStateDidChangeListener { [weak self] (auth, user) in
-                guard let self = self else { return }
-                self.currentUser = user
-                if user != nil {
-                    self.listeners.invoke { listener in
-                        listener.onSignIn()
-                    }
-                }
+    func getCurrentUser(completion: @escaping (Users?) -> Void) {
+        guard let uid = authController.currentUser?.uid else {
+            completion(nil)
+            return
+        }
+        usersRef?.document(uid).getDocument { (document, error) in
+            if let document = document, document.exists, let user = try? document.data(as: Users.self) {
+                completion(user)
+            } else {
+                completion(nil)
             }
         }
+    }
+
+    
+    func addAuthListener() {
+        authListenerHandle = authController.addStateDidChangeListener { [weak self] (auth, user) in
+            guard let self = self else { return }
+            self.currentUser = user
+            if let user = user {
+                self.checkAndHandleNewUser(user)
+            }
+        }
+    }
     
     func removeAuthListener() {
         if let handle = authListenerHandle {
             authController.removeStateDidChangeListener(handle)
         }
     }
-        
+    
     func signInWithEmail(email: String, password: String) {
-            authController.signIn(withEmail: email, password: password) { [weak self] authResult, error in
-                if let error = error {
-                    self?.listeners.invoke { listener in
-                        listener.onError(error)
-                    }
-                    return
+        authController.signIn(withEmail: email, password: password) { [weak self] authResult, error in
+            guard let self = self else { return }
+            if let error = error {
+                self.listeners.invoke { listener in
+                    listener.onError(error)
                 }
-                self?.currentUser = authResult?.user
-                self?.listeners.invoke { listener in
+                return
+            }
+            if let user = authResult?.user {
+                self.currentUser = user
+                self.checkAndHandleNewUser(user)
+                listeners.invoke {listener in
                     listener.onSignIn()
                 }
             }
+        }
     }
-        
-    // In FirebaseController
+    
     func createAccountWithEmail(email: String, password: String, completion: @escaping (Bool, Error?) -> Void) {
         authController.createUser(withEmail: email, password: password) { [weak self] authResult, error in
             guard let self = self else { return }
-
             if let error = error {
                 completion(false, error)
                 return
             }
-
             if let user = authResult?.user {
                 self.currentUser = user
-                completion(true, nil)  // Notify the caller of success
+                listeners.invoke {listener in
+                    listener.onAccountCreated()
+                }
+                completion(true, nil)
             } else {
                 completion(false, NSError(domain: "FirebaseAuth", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"]))
             }
         }
     }
     
-    func signInWithApple() {
-            let nonce = randomNonceString()
-            currentNonce = nonce
-            let appleIDProvider = ASAuthorizationAppleIDProvider()
-            let request = appleIDProvider.createRequest()
-            request.requestedScopes = [.fullName, .email]
-            request.nonce = sha256(nonce)
-            
-            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-            authorizationController.delegate = self
-            authorizationController.presentationContextProvider = self
-            authorizationController.performRequests()
-        }
-
-    func sha256(_ input: String) -> String {
-            let inputData = Data(input.utf8)
-            let hashedData = SHA256.hash(data: inputData)
-            return hashedData.compactMap { String(format: "%02x", $0) }.joined()
-        }
-        
-    func randomNonceString(length: Int = 32) -> String {
-            precondition(length > 0)
-            let charset: Array<Character> =
-                Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
-            var result = ""
-            var remainingLength = length
-            
-            while remainingLength > 0 {
-                let randoms: [UInt8] = (0..<16).map { _ in
-                    var random: UInt8 = 0
-                    let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
-                    if errorCode != errSecSuccess {
-                        fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
-                    }
-                    return random
-                }
-                
-                randoms.forEach { random in
-                    if remainingLength == 0 {
-                        return
-                    }
-                    
-                    if random < charset.count {
-                        result.append(charset[Int(random)])
-                        remainingLength -= 1
-                    }
-                }
-            }
-            
-            return result
-        }
-        
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-            if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-                guard let nonce = currentNonce, let appleIDToken = appleIDCredential.identityToken, let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                    // Handle error.
-                    return
-                }
-                
-                let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-                Auth.auth().signIn(with: credential) { [weak self] authResult, error in
-                    if let error = error {
-                        self?.listeners.invoke { listener in
-                            listener.onError(error)
-                        }
-                        return
-                    }
-                    self?.currentUser = authResult?.user
-                    self?.listeners.invoke { listener in
-                        listener.onSignIn()
-                    }
-                }
-            }
-        }
-        
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-            listeners.invoke { listener in
-                listener.onError(error)
-            }
-        }
-        
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-            return UIApplication.shared.windows.first { $0.isKeyWindow }!
-    }
-
     func signInWithGoogle(presentingViewController: UIViewController) {
-            
-            guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-            
-            let config = GIDConfiguration(clientID: clientID)
-            
-            GIDSignIn.sharedInstance.configuration = config
-            
-            GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { [weak self] result, error in
-                guard error == nil else {
-                    self?.listeners.invoke { listener in
-                        listener.onError(error!)
-                    }
-                    return
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        let config = GIDConfiguration(clientID: clientID)
+        
+        GIDSignIn.sharedInstance.configuration = config
+        
+        GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { [weak self] result, error in
+            guard let self = self else { return }
+            if let error = error {
+                self.listeners.invoke { listener in
+                    listener.onError(error)
                 }
-                
-                guard let user = result?.user, let idToken = user.idToken?.tokenString else {
-                    self?.listeners.invoke { listener in
-                        listener.onError(NSError(domain: "FirebaseController", code: -1, userInfo: [NSLocalizedDescriptionKey: "Google Sign-In data not retrieved."]))
-                    }
-                    return
-                }
-                
-                let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
-                
-                self?.authController.signIn(with: credential) { [weak self] authResult, error in
-                    if let error = error {
-                        self?.listeners.invoke { listener in
-                            listener.onError(error)
-                        }
-                        return
-                    }
-                    
-                    self?.currentUser = authResult?.user
-                    self?.listeners.invoke { listener in
-                        listener.onSignIn()
-                    }
-                }
+                return
             }
+            guard let user = result?.user, let idToken = user.idToken?.tokenString else {
+                self.listeners.invoke { listener in
+                    listener.onError(NSError(domain: "FirebaseController", code: -1, userInfo: [NSLocalizedDescriptionKey: "Google Sign-In data not retrieved."]))
+                }
+                return
+            }
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
+            self.firebaseSignIn(credential, isNewUserCheckNeeded: true)
         }
-    
-    func signInWithFacebook(from viewController: UIViewController) {
-            let loginManager = LoginManager()
-            
-            loginManager.logIn(permissions: ["public_profile", "email"], from: viewController) { [weak self] (result, error) in
-                if let error = error {
-                    // Handle the error appropriately
-                    print("Error: \(error.localizedDescription)")
-                    self?.listeners.invoke { listener in
-                        listener.onError(error)
-                    }
-                    return
-                }
-                
-                guard let result = result, !result.isCancelled else {
-                    print("User cancelled the Facebook login.")
-                    return
-                }
-                
-                guard let accessToken = AccessToken.current?.tokenString else {
-                    print("Failed to get access token")
-                    let tokenError = NSError(domain: "FirebaseController", code: -2, userInfo: [NSLocalizedDescriptionKey: "Failed to get Facebook access token."])
-                    self?.listeners.invoke { listener in
-                        listener.onError(tokenError)
-                    }
-                    return
-                }
-                
-                // Use the access token to create a Firebase credential and sign in
-                let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
-                self?.authController.signIn(with: credential) { [weak self] (authResult, error) in
-                    if let error = error {
-                        // Handle the error appropriately
-                        print("Firebase auth error: \(error.localizedDescription)")
-                        self?.listeners.invoke { listener in
-                            listener.onError(error)
-                        }
-                        return
-                    }
-                    // Inform listeners about the successful login
-                    self?.listeners.invoke { listener in
-                        listener.onSignIn()
-                    }
-                }
-            }
-        }
-        
-    func addListener(listener: DatabaseListener) {
-            listeners.addDelegate(listener)
     }
-        
-    func removeListener(listener: DatabaseListener) {
-            listeners.removeDelegate(listener)
-    }
-        
-    func cleanup() {
-            // Implement any necessary cleanup.
-    }
-    
-    func signOut() {
-            // Sign out from Firebase
-            do {
-                try authController.signOut()
-            } catch let signOutError as NSError {
-                print("Error signing out from Firebase: %@", signOutError)
-            }
-            
-            // Sign out from Google
-            GIDSignIn.sharedInstance.signOut()
 
-            // Sign out from Facebook
-            let loginManager = LoginManager()
-            loginManager.logOut()
-            
-            // Notify listeners about the sign out event
-            listeners.invoke { listener in
-                listener.onSignOut()
+    func signInWithFacebook(from viewController: UIViewController) {
+        let loginManager = LoginManager()
+        loginManager.logIn(permissions: ["public_profile", "email"], from: viewController) { [weak self] result, error in
+            guard let self = self else { return }
+            if let error = error {
+                self.listeners.invoke { listener in
+                    listener.onError(error)
+                }
+                return
+            }
+            guard let result = result, !result.isCancelled, let token = AccessToken.current?.tokenString else {
+                self.listeners.invoke { listener in
+                    listener.onError(NSError(domain: "FirebaseController", code: -1, userInfo: [NSLocalizedDescriptionKey: "Facebook Sign-In cancelled or failed to retrieve access token."]))
+                }
+                return
+            }
+            let credential = FacebookAuthProvider.credential(withAccessToken: token)
+            self.firebaseSignIn(credential, isNewUserCheckNeeded: true)
+        }
+    }
+
+    func firebaseSignIn(_ credential: AuthCredential, isNewUserCheckNeeded: Bool) {
+        authController.signIn(with: credential) { [weak self] authResult, error in
+            guard let self = self else { return }
+            if let error = error {
+                self.listeners.invoke { listener in
+                    listener.onError(error)
+                }
+                return
+            }
+            guard let user = authResult?.user else {
+                self.listeners.invoke { listener in
+                    listener.onError(NSError(domain: "FirebaseController", code: -1, userInfo: [NSLocalizedDescriptionKey: "Firebase sign-in did not return a user."]))
+                }
+                return
+            }
+            self.currentUser = user
+            if isNewUserCheckNeeded {
+                self.checkAndHandleNewUser(user)
+            } else {
+                self.listeners.invoke { listener in
+                    listener.onSignIn()
+                }
             }
         }
-    
-    func isUserSignedIn() -> Bool {
-        return currentUser != nil
     }
-    
-    func addUser(name: String, phoneNumber: String, country: String, gender: String, email: String) {
-        
+
+    func checkAndHandleNewUser(_ user: FirebaseAuth.User) {
+        usersRef?.document(user.uid).getDocument { [weak self] document, error in
+            guard let self = self else { return }
+            if let error = error {
+                print("Error fetching user details: \(error.localizedDescription)")
+                return
+            }
+            if let document = document, document.exists {
+                self.listeners.invoke { listener in
+                    listener.onSignIn()
+                }
+            } else {
+                let newUser = Users()  // Assuming we create a User object to pass to listeners
+                newUser.email = user.email
+                newUser.name = user.displayName
+                self.listeners.invoke { listener in
+                    listener.onNewUser(userDetails: newUser)
+                }
+            }
+        }
+    }
+
+    func addUser(name: String?, phoneNumber: String?, country: String?, gender: String?, email: String?) {
+        guard let uid = authController.currentUser?.uid else {
+            print("No user UID found")
+            return
+        }
         let newUser = Users()
         newUser.name = name
         newUser.email = email
         newUser.phoneNumber = phoneNumber
         newUser.country = country
         newUser.gender = gender
-        
-        guard let uid = authController.currentUser?.uid else {
-            print("No user uid found")
-            return
-        }
-        
+
         do {
-                // Here, usersRef should be defined as a CollectionReference
-                try usersRef?.document(uid).setData(from: newUser, completion: { error in
-                    if let error = error {
-                        print("Error adding user to Firestore: \(error.localizedDescription)")
-                    } else {
-                        print("User added to Firestore with document ID: \(uid)")
-                    }
-                })
-            } catch let error {
-                print("Error serializing user: \(error.localizedDescription)")
+            try usersRef?.document(uid).setData(from: newUser) { error in
+                if let error = error {
+                    print("Error adding user to Firestore: \(error.localizedDescription)")
+                } else {
+                    print("User added to Firestore with UID: \(uid)")
+                }
             }
+        } catch let error {
+            print("Error serializing user: \(error.localizedDescription)")
+        }
     }
-    
-    
-        
+
+    func addListener(listener: DatabaseListener) {
+        listeners.addDelegate(listener)
+    }
+
+    func removeListener(listener: DatabaseListener) {
+        listeners.removeDelegate(listener)
+    }
+
+    func cleanup() {
+        // Implement any necessary cleanup.
+    }
+
+    func signOut() {
+        // Sign out from Firebase
+        do {
+            try authController.signOut()
+        } catch let signOutError as NSError {
+            print("Error signing out from Firebase: %@", signOutError)
+        }
+
+        // Sign out from Google
+        GIDSignIn.sharedInstance.signOut()
+
+        // Sign out from Facebook
+        let loginManager = LoginManager()
+        loginManager.logOut()
+
+        // Notify listeners about the sign out event
+        listeners.invoke { listener in
+            listener.onSignOut()
+        }
+    }
+
+    func isUserSignedIn() -> Bool {
+        return currentUser != nil
+    }
 
 }
-
-
