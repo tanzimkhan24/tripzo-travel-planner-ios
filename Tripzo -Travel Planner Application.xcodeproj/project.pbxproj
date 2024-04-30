@@ -32,6 +32,9 @@
 		339961942BE1332800791F81 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339961912BE1332800791F81 /* CategoryCollectionViewCell.swift */; };
 		339961962BE1356300791F81 /* TripCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339961952BE1356300791F81 /* TripCategory.swift */; };
 		339961982BE1496600791F81 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339961972BE1496600791F81 /* CardView.swift */; };
+		3399619B2BE14D9D00791F81 /* TripViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339961992BE14D9D00791F81 /* TripViewCollectionViewCell.swift */; };
+		3399619C2BE14D9D00791F81 /* TripViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3399619A2BE14D9D00791F81 /* TripViewCollectionViewCell.xib */; };
+		3399619E2BE14F7700791F81 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3399619D2BE14F7700791F81 /* Trip.swift */; };
 		33C18CF62BD8E85100D2D317 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 33C18CF52BD8E85100D2D317 /* FirebaseAnalytics */; };
 		33C18CF82BD8E85100D2D317 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 33C18CF72BD8E85100D2D317 /* FirebaseAnalyticsOnDeviceConversion */; };
 		33C18CFA2BD8E85100D2D317 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 33C18CF92BD8E85100D2D317 /* FirebaseAnalyticsSwift */; };
@@ -98,6 +101,9 @@
 		339961922BE1332800791F81 /* CategoryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCollectionViewCell.xib; sourceTree = "<group>"; };
 		339961952BE1356300791F81 /* TripCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCategory.swift; sourceTree = "<group>"; };
 		339961972BE1496600791F81 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		339961992BE14D9D00791F81 /* TripViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripViewCollectionViewCell.swift; sourceTree = "<group>"; };
+		3399619A2BE14D9D00791F81 /* TripViewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TripViewCollectionViewCell.xib; sourceTree = "<group>"; };
+		3399619D2BE14F7700791F81 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		33CC6D232BD66A0300F19388 /* SemiCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemiCircleView.swift; sourceTree = "<group>"; };
 		33CC6D262BD6719100F19388 /* StartPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPageViewController.swift; sourceTree = "<group>"; };
 		33E410CF2BD721220058EA3D /* Start-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Start-2.png"; sourceTree = "<group>"; };
@@ -164,6 +170,7 @@
 			children = (
 				331A2D882BD94F2E00E62149 /* Users.swift */,
 				339961952BE1356300791F81 /* TripCategory.swift */,
+				3399619D2BE14F7700791F81 /* Trip.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -261,6 +268,8 @@
 				339961912BE1332800791F81 /* CategoryCollectionViewCell.swift */,
 				339961922BE1332800791F81 /* CategoryCollectionViewCell.xib */,
 				339961972BE1496600791F81 /* CardView.swift */,
+				339961992BE14D9D00791F81 /* TripViewCollectionViewCell.swift */,
+				3399619A2BE14D9D00791F81 /* TripViewCollectionViewCell.xib */,
 			);
 			path = "Home Screen";
 			sourceTree = "<group>";
@@ -371,6 +380,7 @@
 				33E410DC2BD853810058EA3D /* Vector.png in Resources */,
 				33E410D82BD850110058EA3D /* logo_travel-removebg-preview 2.png in Resources */,
 				331A2D962BE11B2B00E62149 /* facebook-logo.png in Resources */,
+				3399619C2BE14D9D00791F81 /* TripViewCollectionViewCell.xib in Resources */,
 				337230632BB8CD7B00E3E828 /* Assets.xcassets in Resources */,
 				33E410DA2BD852700058EA3D /* Frame.png in Resources */,
 				33E410D02BD721220058EA3D /* Start-2.png in Resources */,
@@ -392,6 +402,7 @@
 			files = (
 				331A2D912BDAE12800E62149 /* TestScreenViewController.swift in Sources */,
 				339961942BE1332800791F81 /* CategoryCollectionViewCell.swift in Sources */,
+				3399619B2BE14D9D00791F81 /* TripViewCollectionViewCell.swift in Sources */,
 				33E410E62BD8C6030058EA3D /* FirebaseController.swift in Sources */,
 				33E410E42BD8C5E40058EA3D /* DatabaseProtocol.swift in Sources */,
 				33CC6D272BD6719100F19388 /* StartPageViewController.swift in Sources */,
@@ -399,6 +410,7 @@
 				33E410F72BD8D49F0058EA3D /* SignUpScreenViewController.swift in Sources */,
 				331A2D862BD92E8D00E62149 /* HomeScreenViewController.swift in Sources */,
 				331A2D8B2BD95E1A00E62149 /* CreateUserViewController.swift in Sources */,
+				3399619E2BE14F7700791F81 /* Trip.swift in Sources */,
 				3372305A2BB8CD7A00E3E828 /* AppDelegate.swift in Sources */,
 				339961962BE1356300791F81 /* TripCategory.swift in Sources */,
 				33CC6D242BD66A0300F19388 /* SemiCircleView.swift in Sources */,

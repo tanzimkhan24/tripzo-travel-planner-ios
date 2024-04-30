@@ -330,8 +330,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j9C-PY-vbN">
                                 <rect key="frame" x="0.0" y="103" width="393" height="749"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="39j-ab-KDt">
-                                        <rect key="frame" x="0.0" y="8" width="393" height="664"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="39j-ab-KDt">
+                                        <rect key="frame" x="0.0" y="8" width="393" height="704"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mX4-IS-3Vt">
                                                 <rect key="frame" x="0.0" y="0.0" width="393" height="161"/>
@@ -372,7 +372,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L74-5B-Bel">
-                                                <rect key="frame" x="0.0" y="161" width="393" height="339"/>
+                                                <rect key="frame" x="0.0" y="181" width="393" height="339"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Popular Trips" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GrA-vc-Kbk">
                                                         <rect key="frame" x="16" y="16" width="361" height="23"/>
@@ -383,17 +383,17 @@
                                                         <color key="textColor" red="0.44282719279999999" green="0.44282719279999999" blue="0.44282719279999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="CMQ-KH-H3h">
+                                                    <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="CMQ-KH-H3h">
                                                         <rect key="frame" x="0.0" y="39" width="393" height="300"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="300" id="fXe-ZY-G1V"/>
                                                         </constraints>
-                                                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="VCZ-xO-62l">
+                                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="0.0" id="VCZ-xO-62l">
                                                             <size key="itemSize" width="128" height="128"/>
                                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                            <inset key="sectionInset" minX="20" minY="0.0" maxX="40" maxY="0.0"/>
                                                         </collectionViewFlowLayout>
                                                         <cells/>
                                                     </collectionView>
@@ -410,7 +410,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kib-aj-9mg">
-                                                <rect key="frame" x="0.0" y="500" width="393" height="164"/>
+                                                <rect key="frame" x="0.0" y="540" width="393" height="164"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trip Category" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iUJ-sk-sYh">
                                                         <rect key="frame" x="16" y="16" width="361" height="23"/>
@@ -458,7 +458,7 @@
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="1RM-HT-PVQ"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="j9C-PY-vbN" firstAttribute="trailing" secondItem="1RM-HT-PVQ" secondAttribute="trailing" id="9cp-HD-g2f"/>
                             <constraint firstAttribute="bottom" secondItem="j9C-PY-vbN" secondAttribute="bottom" id="E2w-nR-AFJ"/>
@@ -478,6 +478,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="popularTripsCollectionView" destination="CMQ-KH-H3h" id="GbW-mk-uTn"/>
                         <outlet property="tripCategoryCollectionView" destination="GwJ-ik-0zu" id="gbp-0C-fb3"/>
                     </connections>
                 </viewController>
