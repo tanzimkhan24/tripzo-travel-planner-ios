@@ -7,6 +7,7 @@
 
 import UIKit
 import FacebookCore
+import GooglePlaces
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,11 +18,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             _ application: UIApplication,
             didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
         ) -> Bool {
+            
+            UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+            UINavigationBar.appearance().shadowImage = UIImage()
+            UINavigationBar.appearance().tintColor = .black
             ApplicationDelegate.shared.application(
                 application,
                 didFinishLaunchingWithOptions: launchOptions
             )
             
+            GMSPlacesClient.provideAPIKey("AIzaSyDLpWZCxK62J2vMItzi_yGuyCfMfdFgeeA")
             
             
             databaseController = FirebaseController()

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="WeatherCell" id="gTV-IL-0wX" customClass="WeatherForecastCollectionViewCell" customModule="Tripzo__Travel_Planner_Application" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="173" height="224"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="173" height="224"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OOq-K0-cqK">
+                        <rect key="frame" x="0.0" y="0.0" width="173" height="224"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CGU-DQ-xHG">
+                                <rect key="frame" x="40" y="15" width="93" height="79"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="caQ-tk-wjq">
+                                <rect key="frame" x="65" y="138" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="caQ-tk-wjq" firstAttribute="leading" secondItem="OOq-K0-cqK" secondAttribute="leading" constant="65" id="02c-Pz-535"/>
+                            <constraint firstItem="CGU-DQ-xHG" firstAttribute="top" secondItem="OOq-K0-cqK" secondAttribute="top" constant="15" id="7Rh-l5-hTg"/>
+                            <constraint firstAttribute="trailing" secondItem="CGU-DQ-xHG" secondAttribute="trailing" constant="40" id="EiV-gr-7W8"/>
+                            <constraint firstItem="caQ-tk-wjq" firstAttribute="top" secondItem="CGU-DQ-xHG" secondAttribute="bottom" constant="44" id="Rbn-hz-8do"/>
+                            <constraint firstAttribute="bottom" secondItem="caQ-tk-wjq" secondAttribute="bottom" constant="65" id="TlY-Ef-Wt6"/>
+                            <constraint firstAttribute="trailing" secondItem="caQ-tk-wjq" secondAttribute="trailing" constant="66" id="apF-JR-TD5"/>
+                            <constraint firstItem="CGU-DQ-xHG" firstAttribute="leading" secondItem="OOq-K0-cqK" secondAttribute="leading" constant="40" id="itN-Zh-GNE"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="OOq-K0-cqK" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Lps-Mj-88e"/>
+                <constraint firstItem="OOq-K0-cqK" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="lXV-hU-vb7"/>
+                <constraint firstAttribute="trailing" secondItem="OOq-K0-cqK" secondAttribute="trailing" id="nTb-13-TtG"/>
+                <constraint firstAttribute="bottom" secondItem="OOq-K0-cqK" secondAttribute="bottom" id="zZb-Gs-F7b"/>
+            </constraints>
+            <size key="customSize" width="173" height="224"/>
+            <connections>
+                <outlet property="cardView" destination="OOq-K0-cqK" id="NwX-ph-rQL"/>
+                <outlet property="temperatureLabel" destination="caQ-tk-wjq" id="BoF-W4-vzT"/>
+                <outlet property="weatherIconImageView" destination="CGU-DQ-xHG" id="ueq-gb-0ta"/>
+            </connections>
+            <point key="canvasLocation" x="43.511450381679388" y="80.985915492957744"/>
+        </collectionViewCell>
+    </objects>
+</document>

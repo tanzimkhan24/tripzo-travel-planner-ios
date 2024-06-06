@@ -9,10 +9,12 @@ import UIKit
 
 class HomeScreenViewController: UIViewController, DatabaseListener {
     
+    @IBOutlet weak var yourTripsCollectionView: UICollectionView!
     
     @IBOutlet weak var tripCategoryCollectionView: UICollectionView!
     
     @IBOutlet weak var popularTripsCollectionView: UICollectionView!
+    
     var categories: [TripCategory] = []
     var popular: [Trip] = []
     
@@ -145,6 +147,18 @@ extension HomeScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         case popularTripsCollectionView:
             return popular.count
         default: return 0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == tripCategoryCollectionView {
+            
+        } else {
+            let controller = TripViewDetailsViewController.instantiate()
+            
+            controller.trip = popular[indexPath.row]
+            
+            navigationController?.pushViewController(controller, animated: true)
         }
     }
     

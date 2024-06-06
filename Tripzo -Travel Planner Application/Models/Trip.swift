@@ -13,4 +13,5 @@ struct Trip {
     let location: String?
     let country: String?
     let image: UIImage
+    
 }
