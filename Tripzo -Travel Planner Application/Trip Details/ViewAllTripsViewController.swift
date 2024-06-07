@@ -9,9 +9,10 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class ViewAllTripsViewController: UIViewController,MKMapViewDelegate {
+class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var mapView: MKMapView!
     
     var selectedAttractions: [Attraction] = []
@@ -19,19 +20,56 @@ class ViewAllTripsViewController: UIViewController,MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mapView.delegate = self
-        displayAttractionsOnMap()
-        
-        let nib = UINib(nibName: "AttractionTableViewCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: "AttractionCell")
-        
-        tableView.delegate = self
-        tableView.dataSource = self
+        setupNavigationBar()
+        setupMapView()
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        let nib = UINib(nibName: "SelectedTripsCollectionViewCell", bundle: nil)
+        collectionView.register(nib, forCellWithReuseIdentifier: "SelectedTripCell")
         
         
+        
+        if selectedAttractions.isEmpty {
+            showNoTripsMessage()
+        } else {
+            displayAttractionsOnMap()
+        }
     }
     
+    func setupNavigationBar() {
+        guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
+              let statusBarHeight = window.windowScene?.statusBarManager?.statusBarFrame.height else {
+            return
+        }
+
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: (navigationController?.navigationBar.frame.height)! + statusBarHeight)
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        view.addSubview(blurEffectView)
+        view.bringSubviewToFront(navigationController!.navigationBar)
+
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+    }
+    
+    func setupMapView() {
+        mapView.delegate = self
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        mapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        NSLayoutConstraint.activate([
+            mapView.topAnchor.constraint(equalTo: view.topAnchor),
+            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    
     func displayAttractionsOnMap() {
+        mapView.removeAnnotations(mapView.annotations) // Remove existing annotations
         for attraction in selectedAttractions {
             let annotation = MKPointAnnotation()
             annotation.title = attraction.title
@@ -44,27 +82,46 @@ class ViewAllTripsViewController: UIViewController,MKMapViewDelegate {
             mapView.setRegion(region, animated: true)
         }
     }
-}
-
-extension ViewAllTripsViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func removeAnnotation(for attraction: Attraction) {
+        let annotations = mapView.annotations.filter {
+            $0.coordinate.latitude == attraction.latitude && $0.coordinate.longitude == attraction.longitude
+        }
+        mapView.removeAnnotations(annotations)
+    }
+    
+    func showNoTripsMessage() {
+        let alert = UIAlertController(title: "No Trips", message: "No trips from this city exist. Please return to the previous screen to add some.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            self.navigationController?.popViewController(animated: true)
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    // MKMapViewDelegate method for clustering
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier, for: annotation) as? MKMarkerAnnotationView
+        annotationView?.clusteringIdentifier = "cluster"
+        return annotationView
+    }
+    
+    // UICollectionViewDataSource methods
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return selectedAttractions.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AttractionCell", for: indexPath) as! AttractionTableViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SelectedTripCell", for: indexPath) as! SelectedTripsCollectionViewCell
         let attraction = selectedAttractions[indexPath.row]
         cell.configure(with: attraction)
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let attraction = selectedAttractions[indexPath.row]
         let coordinate = CLLocationCoordinate2D(latitude: attraction.latitude, longitude: attraction.longitude)
         let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-        
-        print("Selected attraction: \(attraction.title)")
-        print("Latitude: \(attraction.latitude), Longitude: \(attraction.longitude)")
         mapView.setRegion(region, animated: true)
     }
+    
 }

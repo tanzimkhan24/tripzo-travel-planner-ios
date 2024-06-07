@@ -58,6 +58,9 @@
 		33C164A22BFDBAB200AF9A30 /* AttractionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1649F2BFDBAB200AF9A30 /* AttractionTableViewCell.swift */; };
 		33C164A42BFDBC5000AF9A30 /* AttractionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C164A32BFDBC5000AF9A30 /* AttractionModel.swift */; };
 		33C164A62BFDD80C00AF9A30 /* ViewAllTripsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C164A52BFDD80C00AF9A30 /* ViewAllTripsViewController.swift */; };
+		33C164A92C11F88000AF9A30 /* SelectedTripsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33C164A82C11F88000AF9A30 /* SelectedTripsCollectionViewCell.xib */; };
+		33C164AA2C11F88000AF9A30 /* SelectedTripsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C164A72C11F88000AF9A30 /* SelectedTripsCollectionViewCell.swift */; };
+		33C164AC2C12251000AF9A30 /* CustomIntensityVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C164AB2C12251000AF9A30 /* CustomIntensityVisualEffectView.swift */; };
 		33C18CF62BD8E85100D2D317 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 33C18CF52BD8E85100D2D317 /* FirebaseAnalytics */; };
 		33C18CF82BD8E85100D2D317 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 33C18CF72BD8E85100D2D317 /* FirebaseAnalyticsOnDeviceConversion */; };
 		33C18CFA2BD8E85100D2D317 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 33C18CF92BD8E85100D2D317 /* FirebaseAnalyticsSwift */; };
@@ -147,6 +150,9 @@
 		33C164A02BFDBAB200AF9A30 /* AttractionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttractionTableViewCell.xib; sourceTree = "<group>"; };
 		33C164A32BFDBC5000AF9A30 /* AttractionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionModel.swift; sourceTree = "<group>"; };
 		33C164A52BFDD80C00AF9A30 /* ViewAllTripsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAllTripsViewController.swift; sourceTree = "<group>"; };
+		33C164A72C11F88000AF9A30 /* SelectedTripsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTripsCollectionViewCell.swift; sourceTree = "<group>"; };
+		33C164A82C11F88000AF9A30 /* SelectedTripsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectedTripsCollectionViewCell.xib; sourceTree = "<group>"; };
+		33C164AB2C12251000AF9A30 /* CustomIntensityVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomIntensityVisualEffectView.swift; sourceTree = "<group>"; };
 		33CC6D232BD66A0300F19388 /* SemiCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemiCircleView.swift; sourceTree = "<group>"; };
 		33CC6D262BD6719100F19388 /* StartPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPageViewController.swift; sourceTree = "<group>"; };
 		33E410CF2BD721220058EA3D /* Start-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Start-2.png"; sourceTree = "<group>"; };
@@ -298,6 +304,8 @@
 				33C1649F2BFDBAB200AF9A30 /* AttractionTableViewCell.swift */,
 				33C164A02BFDBAB200AF9A30 /* AttractionTableViewCell.xib */,
 				33C164A52BFDD80C00AF9A30 /* ViewAllTripsViewController.swift */,
+				33C164A72C11F88000AF9A30 /* SelectedTripsCollectionViewCell.swift */,
+				33C164A82C11F88000AF9A30 /* SelectedTripsCollectionViewCell.xib */,
 			);
 			path = "Trip Details";
 			sourceTree = "<group>";
@@ -306,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				33CC6D232BD66A0300F19388 /* SemiCircleView.swift */,
+				33C164AB2C12251000AF9A30 /* CustomIntensityVisualEffectView.swift */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -457,6 +466,7 @@
 				33E410F92BD8D7DD0058EA3D /* GoogleService-Info.plist in Resources */,
 				337230662BB8CD7B00E3E828 /* LaunchScreen.storyboard in Resources */,
 				33E410E02BD854FA0058EA3D /* Ellipse.png in Resources */,
+				33C164A92C11F88000AF9A30 /* SelectedTripsCollectionViewCell.xib in Resources */,
 				337230732BB8D28A00E3E828 /* Subtract.png in Resources */,
 				331A2D982BE11B6C00E62149 /* fb-logo.png in Resources */,
 				33E410DC2BD853810058EA3D /* Vector.png in Resources */,
@@ -509,7 +519,9 @@
 				33CC6D242BD66A0300F19388 /* SemiCircleView.swift in Sources */,
 				331A2D892BD94F2E00E62149 /* Users.swift in Sources */,
 				33E410E82BD8C6CE0058EA3D /* MulticastDelegate.swift in Sources */,
+				33C164AA2C11F88000AF9A30 /* SelectedTripsCollectionViewCell.swift in Sources */,
 				3372305C2BB8CD7A00E3E828 /* SceneDelegate.swift in Sources */,
+				33C164AC2C12251000AF9A30 /* CustomIntensityVisualEffectView.swift in Sources */,
 				339961B32BEA951C00791F81 /* SelectedTripViewController.swift in Sources */,
 				339961B12BEA538600791F81 /* Place.swift in Sources */,
 				339961982BE1496600791F81 /* CardView.swift in Sources */,

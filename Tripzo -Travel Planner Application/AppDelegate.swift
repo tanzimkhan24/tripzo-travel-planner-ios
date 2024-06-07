@@ -19,9 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
         ) -> Bool {
             
-            UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-            UINavigationBar.appearance().shadowImage = UIImage()
-            UINavigationBar.appearance().tintColor = .black
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithTransparentBackground()
+            appearance.backgroundColor = UIColor.clear
+            appearance.backgroundEffect = UIBlurEffect(style: .light) // or light
+            UINavigationBar.appearance().standardAppearance = appearance
+            
             ApplicationDelegate.shared.application(
                 application,
                 didFinishLaunchingWithOptions: launchOptions
