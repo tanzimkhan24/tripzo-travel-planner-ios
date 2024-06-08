@@ -17,20 +17,15 @@ class YourTripsCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var tripCountry: UILabel!
     
-    func configure(trip: Trip?) {
-            if let trip = trip {
-                // Display the trip details
-                tripImage.image = trip.image // Ensure image names are correctly managed
-                tripCity.text = trip.location
-                tripCountry.text = trip.country
-                tripImage.isHidden = false
-            } else {
-                // Configure as 'Add Trip'
-                tripImage.image = UIImage(systemName: "plus.circle.fill") // Or any appropriate icon
-                tripCity.text = "Add New Trip"
-                tripCountry.text = ""
-                tripImage.isHidden = false
-            }
+    func setup(itinerary: Itinerary) {
+        tripCity.text = itinerary.cityName
+        tripCountry.text = itinerary.countryName
+        
+        if let firstAttraction = itinerary.attractions.first, let imageUrl = firstAttraction.imageUrl, let url = URL(string: imageUrl) {
+            tripImage.sd_setImage(with: url, completed: nil)
+        } else {
+            tripImage.image = UIImage(systemName: "photo")
         }
+    }
     
 }

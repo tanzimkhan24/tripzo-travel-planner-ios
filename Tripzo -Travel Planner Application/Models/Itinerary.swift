@@ -6,3 +6,19 @@
 //
 
 import Foundation
+import UIKit
+
+struct Itinerary: Codable {
+    let cityName: String
+    let countryName: String
+    let attractions: [Attraction]
+    var imageData: Data?
+    
+    var image: UIImage? {
+        if let data = imageData {
+            return UIImage(data: data)
+        }
+        return nil
+    }
+}
+

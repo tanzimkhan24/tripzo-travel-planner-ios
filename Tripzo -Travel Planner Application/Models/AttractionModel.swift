@@ -42,22 +42,6 @@ func fetchCoordinates(for cityName: String, completion: @escaping (Result<CLLoca
     }.resume()
 }
 
-struct GeocodeResponse: Codable {
-    let results: [GeocodeResult]
-}
-
-struct GeocodeResult: Codable {
-    let geometry: GeocodeGeometry
-}
-
-struct GeocodeGeometry: Codable {
-    let location: GeocodeLocation
-}
-
-struct GeocodeLocation: Codable {
-    let lat: Double
-    let lng: Double
-}
 
 func fetchAttractions(for cityName: String, completion: @escaping (Result<[Attraction], Error>) -> Void) {
     fetchCoordinates(for: cityName) { result in
@@ -70,7 +54,7 @@ func fetchAttractions(for cityName: String, completion: @escaping (Result<[Attra
     }
 }
 
-func fetchNearbyAttractions(latitude: Double, longitude: Double, cityName: String, radius: Int = 20000, completion: @escaping (Result<[Attraction], Error>) -> Void) {
+func fetchNearbyAttractions(latitude: Double, longitude: Double, cityName: String, radius: Int = 5000000, completion: @escaping (Result<[Attraction], Error>) -> Void) {
     let apiKey = "AIzaSyDLpWZCxK62J2vMItzi_yGuyCfMfdFgeeA"
     var urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(latitude),\(longitude)&radius=\(radius)&type=tourist_attraction&key=\(apiKey)"
     var attractions: [Attraction] = []
@@ -117,16 +101,24 @@ func fetchNearbyAttractions(latitude: Double, longitude: Double, cityName: Strin
                         group.leave()
                     }
                     
-                    group.notify(queue: .main) {
-                        let attraction = Attraction(
-                            id: place.place_id,
-                            title: place.name,
-                            latitude: place.geometry.location.lat,
-                            longitude: place.geometry.location.lng,
-                            imageUrl: imageUrl,
-                            cityName: cityName
-                        )
-                        attractions.append(attraction)
+                    group.enter()
+                    fetchCountryName(for: place.geometry.location) { countryResult in
+                        switch countryResult {
+                        case .success(let countryName):
+                            let attraction = Attraction(
+                                id: place.place_id,
+                                title: place.name,
+                                latitude: place.geometry.location.lat,
+                                longitude: place.geometry.location.lng,
+                                imageUrl: imageUrl,
+                                cityName: cityName,
+                                countryName: countryName
+                            )
+                            attractions.append(attraction)
+                        case .failure(let error):
+                            print("Error fetching country name: \(error)")
+                        }
+                        group.leave()
                     }
                 }
                 
@@ -157,6 +149,65 @@ func fetchPhotoURL(for photoReference: String, apiKey: String, completion: @esca
     completion(.success(urlString))
 }
 
+func fetchCountryName(for location: Location, completion: @escaping (Result<String, Error>) -> Void) {
+    let apiKey = "AIzaSyDLpWZCxK62J2vMItzi_yGuyCfMfdFgeeA"
+    let urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=\(location.lat),\(location.lng)&key=\(apiKey)"
+    
+    guard let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else {
+        completion(.failure(NSError(domain: "InvalidURL", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
+        return
+    }
+    
+    URLSession.shared.dataTask(with: url) { data, response, error in
+        if let error = error {
+            completion(.failure(error))
+            return
+        }
+        
+        guard let data = data else {
+            completion(.failure(NSError(domain: "NoData", code: 1, userInfo: [NSLocalizedDescriptionKey: "No data received"])))
+            return
+        }
+        
+        do {
+            let geocodeResponse = try JSONDecoder().decode(GeocodeResponse.self, from: data)
+            if let country = geocodeResponse.results.first?.address_components.first(where: { $0.types.contains("country") })?.long_name {
+                completion(.success(country))
+            } else {
+                completion(.failure(NSError(domain: "NoCountryFound", code: 2, userInfo: [NSLocalizedDescriptionKey: "No country found"])))
+            }
+        } catch {
+            completion(.failure(error))
+        }
+    }.resume()
+}
+
+
+struct GeocodeResponse: Codable {
+    let results: [GeocodeResult]
+}
+
+struct GeocodeResult: Codable {
+    let address_components: [AddressComponent]
+    let geometry: GeocodeGeometry
+}
+
+struct AddressComponent: Codable {
+    let long_name: String
+    let short_name: String
+    let types: [String]
+}
+
+struct GeocodeGeometry: Codable {
+    let location: GeocodeLocation
+}
+
+struct GeocodeLocation: Codable {
+    let lat: Double
+    let lng: Double
+}
+
+// Attraction Model
 struct Attraction: Codable {
     let id: String
     let title: String
@@ -164,8 +215,10 @@ struct Attraction: Codable {
     let longitude: Double
     let imageUrl: String?
     let cityName: String
+    let countryName: String
 }
 
+// GooglePlacesResponse and supporting structs
 struct GooglePlacesResponse: Codable {
     let results: [GooglePlace]
     let next_page_token: String?

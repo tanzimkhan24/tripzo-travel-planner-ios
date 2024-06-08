@@ -53,10 +53,10 @@ class SuggestedTripsViewController: UIViewController, UITableViewDataSource, UIT
     }
 
     func fetchAttractionsData() {
-        //guard let cityName = cityName else { return }
+        guard let cityName = cityName else { return }
         indicator.startAnimating() // Start the activity indicator
         
-        fetchAttractions(for: "Adelaide") { [weak self] result in
+        fetchAttractions(for: cityName) { [weak self] result in
             DispatchQueue.main.async {
                 self?.indicator.stopAnimating() // Stop the activity indicator
                 switch result {

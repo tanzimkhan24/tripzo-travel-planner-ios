@@ -8,10 +8,10 @@
 import Foundation
 import UIKit
 
-struct Trip {
-    let id: String?
-    let location: String?
-    let country: String?
-    let image: UIImage
-    
+struct Trip: Codable {
+    let id: String
+    let title: String
+    let imageUrl: String
+    let cityName: String
+    let countryName: String
 }

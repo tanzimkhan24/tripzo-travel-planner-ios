@@ -10,5 +10,5 @@ import UIKit
 struct Place {
     let name: String
     let country: String
-    var image: UIImage?  // Optional image to handle cases where the image might not be available immediately
+    var image: UIImage? 
 }

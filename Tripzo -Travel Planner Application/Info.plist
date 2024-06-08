@@ -49,9 +49,7 @@
 			</array>
 		</dict>
 	</dict>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>We need your location to show nearby attractions.</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>We need your location to show nearby attractions.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location to show nearby attarctions</string>
 </dict>
 </plist>

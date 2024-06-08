@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		33181E3C2C147E2900E888AD /* Itinerary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33181E3B2C147E2900E888AD /* Itinerary.swift */; };
+		33181E3E2C14988900E888AD /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33181E3D2C14988900E888AD /* LocationManager.swift */; };
 		331A2D762BD8F5E800E62149 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 331A2D752BD8F5E800E62149 /* GoogleSignIn */; };
 		331A2D782BD8F5E800E62149 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 331A2D772BD8F5E800E62149 /* GoogleSignInSwift */; };
 		331A2D7B2BD8F66300E62149 /* FacebookAEM in Frameworks */ = {isa = PBXBuildFile; productRef = 331A2D7A2BD8F66300E62149 /* FacebookAEM */; };
@@ -60,7 +62,6 @@
 		33C164A62BFDD80C00AF9A30 /* ViewAllTripsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C164A52BFDD80C00AF9A30 /* ViewAllTripsViewController.swift */; };
 		33C164A92C11F88000AF9A30 /* SelectedTripsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33C164A82C11F88000AF9A30 /* SelectedTripsCollectionViewCell.xib */; };
 		33C164AA2C11F88000AF9A30 /* SelectedTripsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C164A72C11F88000AF9A30 /* SelectedTripsCollectionViewCell.swift */; };
-		33C164AC2C12251000AF9A30 /* CustomIntensityVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C164AB2C12251000AF9A30 /* CustomIntensityVisualEffectView.swift */; };
 		33C18CF62BD8E85100D2D317 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 33C18CF52BD8E85100D2D317 /* FirebaseAnalytics */; };
 		33C18CF82BD8E85100D2D317 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 33C18CF72BD8E85100D2D317 /* FirebaseAnalyticsOnDeviceConversion */; };
 		33C18CFA2BD8E85100D2D317 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 33C18CF92BD8E85100D2D317 /* FirebaseAnalyticsSwift */; };
@@ -106,6 +107,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		33181E3B2C147E2900E888AD /* Itinerary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Itinerary.swift; sourceTree = "<group>"; };
+		33181E3D2C14988900E888AD /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		331A2D852BD92E8D00E62149 /* HomeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewController.swift; sourceTree = "<group>"; };
 		331A2D882BD94F2E00E62149 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		331A2D8A2BD95E1A00E62149 /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
@@ -152,7 +155,6 @@
 		33C164A52BFDD80C00AF9A30 /* ViewAllTripsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAllTripsViewController.swift; sourceTree = "<group>"; };
 		33C164A72C11F88000AF9A30 /* SelectedTripsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTripsCollectionViewCell.swift; sourceTree = "<group>"; };
 		33C164A82C11F88000AF9A30 /* SelectedTripsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectedTripsCollectionViewCell.xib; sourceTree = "<group>"; };
-		33C164AB2C12251000AF9A30 /* CustomIntensityVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomIntensityVisualEffectView.swift; sourceTree = "<group>"; };
 		33CC6D232BD66A0300F19388 /* SemiCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemiCircleView.swift; sourceTree = "<group>"; };
 		33CC6D262BD6719100F19388 /* StartPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPageViewController.swift; sourceTree = "<group>"; };
 		33E410CF2BD721220058EA3D /* Start-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Start-2.png"; sourceTree = "<group>"; };
@@ -227,6 +229,8 @@
 				339961B02BEA538600791F81 /* Place.swift */,
 				33A937092BEAB281009A760B /* WeatherModel.swift */,
 				33C164A32BFDBC5000AF9A30 /* AttractionModel.swift */,
+				33181E3B2C147E2900E888AD /* Itinerary.swift */,
+				33181E3D2C14988900E888AD /* LocationManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -314,7 +318,6 @@
 			isa = PBXGroup;
 			children = (
 				33CC6D232BD66A0300F19388 /* SemiCircleView.swift */,
-				33C164AB2C12251000AF9A30 /* CustomIntensityVisualEffectView.swift */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -508,6 +511,7 @@
 				331A2D862BD92E8D00E62149 /* HomeScreenViewController.swift in Sources */,
 				33C164A62BFDD80C00AF9A30 /* ViewAllTripsViewController.swift in Sources */,
 				339961A12BE1609300791F81 /* TripViewDetailsViewController.swift in Sources */,
+				33181E3C2C147E2900E888AD /* Itinerary.swift in Sources */,
 				339961AB2BE26D4600791F81 /* PlacesViewController.swift in Sources */,
 				331A2D8B2BD95E1A00E62149 /* CreateUserViewController.swift in Sources */,
 				33A937072BEAA802009A760B /* WeatherForecastCollectionViewCell.swift in Sources */,
@@ -521,7 +525,6 @@
 				33E410E82BD8C6CE0058EA3D /* MulticastDelegate.swift in Sources */,
 				33C164AA2C11F88000AF9A30 /* SelectedTripsCollectionViewCell.swift in Sources */,
 				3372305C2BB8CD7A00E3E828 /* SceneDelegate.swift in Sources */,
-				33C164AC2C12251000AF9A30 /* CustomIntensityVisualEffectView.swift in Sources */,
 				339961B32BEA951C00791F81 /* SelectedTripViewController.swift in Sources */,
 				339961B12BEA538600791F81 /* Place.swift in Sources */,
 				339961982BE1496600791F81 /* CardView.swift in Sources */,
@@ -529,6 +532,7 @@
 				33C164A42BFDBC5000AF9A30 /* AttractionModel.swift in Sources */,
 				33A937122BEB5E8D009A760B /* YourTripsCollectionViewCell.swift in Sources */,
 				33C164A22BFDBAB200AF9A30 /* AttractionTableViewCell.swift in Sources */,
+				33181E3E2C14988900E888AD /* LocationManager.swift in Sources */,
 				33E410D62BD820FF0058EA3D /* StartScreenCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -5,10 +5,11 @@
 //  Created by Tanzim Islam Khan on 1/5/2024.
 //
 
+
 import UIKit
 
 class TripViewCollectionViewCell: UICollectionViewCell {
-
+    
     static let identifier = "TripViewCollectionViewCell"
     @IBOutlet weak var destinationImageView: UIImageView!
     
@@ -17,11 +18,15 @@ class TripViewCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var countryDetails: UILabel!
     
     func setup(trip: Trip) {
-        locationDetails.text = trip.location
-        countryDetails.text = trip.country
+        locationDetails.text = trip.cityName
+        countryDetails.text = trip.countryName
         destinationImageView.layer.cornerRadius = 5
-        destinationImageView.image = trip.image
         
+        if let imageUrl = URL(string: trip.imageUrl) {
+            destinationImageView.sd_setImage(with: imageUrl, placeholderImage: UIImage(named: "placeholder"), options: .highPriority, completed: nil)
+        } else {
+            destinationImageView.image = UIImage(named: "placeholder")
+        }
     }
-
 }
+

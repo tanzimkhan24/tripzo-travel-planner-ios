@@ -14,8 +14,9 @@ class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollect
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var mapView: MKMapView!
-    
     var selectedAttractions: [Attraction] = []
+    var itineraries: [Itinerary] = []
+    weak var homeScreenViewController: HomeScreenViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,13 +28,15 @@ class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollect
         let nib = UINib(nibName: "SelectedTripsCollectionViewCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "SelectedTripCell")
         
-        
-        
         if selectedAttractions.isEmpty {
             showNoTripsMessage()
         } else {
             displayAttractionsOnMap()
         }
+        
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        longPressRecognizer.minimumPressDuration = 1.0 // Duration in seconds
+        collectionView.addGestureRecognizer(longPressRecognizer)
     }
     
     func setupNavigationBar() {
@@ -98,11 +101,48 @@ class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollect
         present(alert, animated: true, completion: nil)
     }
     
+    @IBAction func createTripPressed(_ sender: Any) {
+        guard let firstAttraction = selectedAttractions.first else { return }
+        let itinerary = Itinerary(cityName: firstAttraction.cityName, countryName: firstAttraction.countryName, attractions: selectedAttractions)
+        var savedItineraries = loadItineraries()
+        savedItineraries.append(itinerary)
+        saveItineraries(savedItineraries)
+        
+        homeScreenViewController?.itineraries = savedItineraries
+
+        let alert = UIAlertController(title: "Trip Created", message: "Your trip has been created successfully.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            if let homeVC = self.navigationController?.viewControllers.first(where: { $0 is HomeScreenViewController }) as? HomeScreenViewController {
+                homeVC.itineraries = savedItineraries
+                self.navigationController?.popToViewController(homeVC, animated: true)
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }))
+        present(alert, animated: true)
+    }
     // MKMapViewDelegate method for clustering
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier, for: annotation) as? MKMarkerAnnotationView
         annotationView?.clusteringIdentifier = "cluster"
         return annotationView
+    }
+    
+    func saveItineraries(_ itineraries: [Itinerary]) {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(itineraries) {
+            UserDefaults.standard.set(encoded, forKey: "itineraries")
+        }
+    }
+    
+    func loadItineraries() -> [Itinerary] {
+        if let savedItineraries = UserDefaults.standard.object(forKey: "itineraries") as? Data {
+            let decoder = JSONDecoder()
+            if let loadedItineraries = try? decoder.decode([Itinerary].self, from: savedItineraries) {
+                return loadedItineraries
+            }
+        }
+        return []
     }
     
     // UICollectionViewDataSource methods
@@ -122,6 +162,30 @@ class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollect
         let coordinate = CLLocationCoordinate2D(latitude: attraction.latitude, longitude: attraction.longitude)
         let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
         mapView.setRegion(region, animated: true)
+    }
+    
+    @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state != .began {
+            return
+        }
+        
+        let point = gesture.location(in: collectionView)
+        if let indexPath = collectionView.indexPathForItem(at: point) {
+            let attraction = selectedAttractions[indexPath.item]
+            
+            let alert = UIAlertController(title: "Delete Trip", message: "Are you sure you want to delete the trip to \(attraction.title)?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                self.selectedAttractions.remove(at: indexPath.item)
+                self.collectionView.deleteItems(at: [indexPath])
+                self.displayAttractionsOnMap()
+                
+                if self.selectedAttractions.isEmpty {
+                    self.showNoTripsMessage()
+                }
+            }))
+            present(alert, animated: true, completion: nil)
+        }
     }
     
 }
