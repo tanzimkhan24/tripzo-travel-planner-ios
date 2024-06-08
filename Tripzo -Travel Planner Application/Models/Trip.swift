@@ -14,4 +14,8 @@ struct Trip: Codable {
     let imageUrl: String
     let cityName: String
     let countryName: String
+    let types: [String]
+    var category: String? 
 }
+
+

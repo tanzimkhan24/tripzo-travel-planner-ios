@@ -229,6 +229,7 @@ struct GooglePlace: Codable {
     let name: String
     let geometry: Geometry
     let photos: [Photo]?
+    let types: [String]
 }
 
 struct Geometry: Codable {

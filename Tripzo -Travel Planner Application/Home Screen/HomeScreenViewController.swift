@@ -19,9 +19,25 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
     @IBAction func addTripsPressed(_ sender: Any) {
         performSegue(withIdentifier: "showSuggestedTrips", sender: self)
     }
-    
+
+    let predefinedCategories: [String: [String]] = [
+        "Nature": ["park", "campground", "natural_feature"],
+        "Leisure": ["tourist_attraction", "museum", "amusement_park"],
+        "Shopping": ["shopping_mall", "store", "supermarket"],
+        "Dining": ["restaurant", "cafe", "bakery"],
+        "Historical": ["church", "museum", "historical"],
+        "Entertainment": ["movie_theater", "night_club", "casino"]
+    ]
+
     var categories: [TripCategory] = []
     var popular: [Trip] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.popularTripsCollectionView.reloadData()
+            }
+        }
+    }
+    var filteredTrips: [Trip] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.popularTripsCollectionView.reloadData()
@@ -55,10 +71,10 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
     }
     
     func onError(_ error: any Error) {
-        print("Error: \(error.localizedDescription)")
+        print("Error")
         let message = error.localizedDescription
         DispatchQueue.main.async {
-            self.displayMessage(title: "Error", message: message)
+            self.displayMessage(title: "Logout Error", message: message)
         }
     }
     
@@ -87,14 +103,7 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         yourTripsCollectionView.addGestureRecognizer(longPressRecognizer)
         
-        categories = [
-            TripCategory(id: "id1", name: "Hiking", image: .screen1),
-            TripCategory(id: "id2", name: "Travel", image: .screen2),
-            TripCategory(id: "id3", name: "Flight", image: .screen1),
-            TripCategory(id: "id1", name: "Hiking", image: .screen2),
-            TripCategory(id: "id2", name: "Travel", image: .screen1),
-            TripCategory(id: "id3", name: "Flight", image: .screen2)
-        ]
+        categories = []
         
         setupActivityIndicator()
         fetchUserLocation()
@@ -116,7 +125,6 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
                 guard let strongSelf = self else {
                     return
                 }
-                print("User location: \(location.coordinate)")
                 strongSelf.fetchNearbyCities(location: location)
             }
         }
@@ -182,18 +190,24 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "viewAllTrips", let viewAllTripsVC = segue.destination as? ViewAllTripsViewController {
             viewAllTripsVC.homeScreenViewController = self
-        } /*else if segue.identifier == "showSuggestedTrips", let suggestedTripsVC = segue.destination as? SuggestedTripsViewController {
+        } else if segue.identifier == "showSuggestedTrips", let suggestedTripsVC = segue.destination as? SuggestedTripsViewController {
             // Pass any necessary data to SuggestedTripsViewController here
         }
-           */
     }
     
-    func fetchNearbyCities(location: CLLocation) {
+    func fetchNearbyCities(location: CLLocation, nextPageToken: String? = nil) {
         let apiKey = "AIzaSyDLpWZCxK62J2vMItzi_yGuyCfMfdFgeeA"
-        let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(location.coordinate.latitude),\(location.coordinate.longitude)&radius=500000&type=tourist_attraction&key=\(apiKey)"
+        var urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(location.coordinate.latitude),\(location.coordinate.longitude)&radius=5000000&type=tourist_attraction&key=\(apiKey)"
+        
+        if let token = nextPageToken {
+            urlString += "&pagetoken=\(token)"
+        }
         
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+            }
             return
         }
 
@@ -239,15 +253,18 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
                     self.fetchCountryName(for: place.geometry.location) { countryResult in
                         switch countryResult {
                         case .success(let countryName):
+                            let tripCategory = self.categorizeTrip(types: place.types)
+                            print("Trip: \(place.name), Category: \(String(describing: tripCategory))") // Print statement for debugging
                             let trip = Trip(
                                 id: place.place_id,
                                 title: place.name,
                                 imageUrl: imageUrl ?? "",
                                 cityName: place.name,
-                                countryName: countryName
+                                countryName: countryName,
+                                types: place.types,
+                                category: tripCategory
                             )
                             self.popular.append(trip)
-                            print("Trip added: \(trip)")
                         case .failure(let error):
                             print("Error fetching country name: \(error)")
                         }
@@ -258,7 +275,11 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
                 group.notify(queue: .main) {
                     self.popularTripsCollectionView.reloadData()
                     self.activityIndicator.stopAnimating()
-                    print("Popular trips loaded: \(self.popular)")
+                    if let nextPageToken = placesResponse.next_page_token {
+                        self.fetchNearbyCities(location: location, nextPageToken: nextPageToken)
+                    } else {
+                        self.fetchCategoriesFromTrips()
+                    }
                 }
             } catch {
                 print("Error decoding response: \(error)")
@@ -271,9 +292,9 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
     }
 
     func fetchPhotoURL(for photoReference: String, apiKey: String, completion: @escaping (Result<String, Error>) -> Void) {
-        let urlString = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=\(photoReference)&key=\(apiKey)"
+        let urlString = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photoreference=\(photoReference)&key=\(apiKey)"
         
-        guard URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") != nil else {
+        guard let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else {
             completion(.failure(NSError(domain: "InvalidURL", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
             return
         }
@@ -314,8 +335,29 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
         }
         task.resume()
     }
+    
+    func categorizeTrip(types: [String]) -> String? {
+        for (category, googleTypes) in predefinedCategories {
+            if types.contains(where: googleTypes.contains) {
+                return category
+            }
+        }
+        return nil
+    }
+    
+    func fetchCategoriesFromTrips() {
+        let categoriesSet = Set(popular.compactMap { $0.category })
+        categories = categoriesSet.map {
+            TripCategory(id: UUID().uuidString, name: $0, image: .screen1)
+        }
+        DispatchQueue.main.async {
+            print("Categories: \(self.categories)")
+            self.tripCategoryCollectionView.reloadData()
+        }
+    }
 }
 
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 extension HomeScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -323,7 +365,7 @@ extension HomeScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         case tripCategoryCollectionView:
             return categories.count
         case popularTripsCollectionView:
-            return popular.count
+            return filteredTrips.isEmpty ? popular.count : filteredTrips.count
         case yourTripsCollectionView:
             return itineraries.count
         default:
@@ -339,7 +381,8 @@ extension HomeScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             return cell
         case popularTripsCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TripViewCollectionViewCell.identifier, for: indexPath) as! TripViewCollectionViewCell
-            cell.setup(trip: popular[indexPath.row])
+            let trip = filteredTrips.isEmpty ? popular[indexPath.row] : filteredTrips[indexPath.row]
+            cell.setup(trip: trip)
             return cell
         case yourTripsCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: YourTripsCollectionViewCell.identifier, for: indexPath) as! YourTripsCollectionViewCell
@@ -352,11 +395,13 @@ extension HomeScreenViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == tripCategoryCollectionView {
-            // Handle category selection
+            let selectedCategory = categories[indexPath.row].name
+            filteredTrips = popular.filter { $0.category == selectedCategory }
+            popularTripsCollectionView.reloadData()
         } else if collectionView == yourTripsCollectionView {
             // Handle trip selection
         } else {
-            // Handle popular trip selection
+            // Handle other selections if needed
         }
     }
 }
