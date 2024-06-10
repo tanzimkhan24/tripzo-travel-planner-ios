@@ -17,6 +17,17 @@ class SelectedTripsCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var cardView: UIView!
     
+    func configure(with city: City) {
+        cityName.text = city.name
+        addressLabel.text = city.country
+        
+        attractionImageView.layer.cornerRadius = 20
+        
+        let placeholderImage = UIImage(named: "placeholder")
+        let imageURL = city.imageUrl ?? ""
+        attractionImageView.sd_setImage(with: URL(string: imageURL), placeholderImage: placeholderImage)
+    }
+    
     
     func configure(with attraction: Attraction) {
         cityName.text = attraction.title

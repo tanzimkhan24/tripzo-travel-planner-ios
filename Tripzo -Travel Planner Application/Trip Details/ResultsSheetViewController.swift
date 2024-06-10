@@ -5,10 +5,14 @@
 //  Created by Tanzim Islam Khan on 10/6/2024.
 //
 
-
 import UIKit
 import CoreLocation
 import GooglePlaces
+import FloatingPanel
+
+struct GooglePlacesSearchResult: Codable {
+    let results: [GooglePlace]
+}
 
 struct GeoNamesSearchResult: Codable {
     let geonames: [GeoNameDetail]
@@ -27,17 +31,11 @@ struct WikipediaSummary: Codable {
 class ResultsSheetViewController: UIViewController, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
-    
     @IBOutlet weak var countryNameLabel: UILabel!
-    
     @IBOutlet weak var countryDetailsLabel: UILabel!
-    
     @IBOutlet weak var populationLabel: UILabel!
-    
     @IBOutlet weak var distanceLabel: UILabel!
-    
     @IBOutlet weak var collectionView: UICollectionView!
-    
     @IBOutlet weak var aboutTextView: UITextView!
     
     var placesClient: GMSPlacesClient!
@@ -92,7 +90,34 @@ class ResultsSheetViewController: UIViewController, UISearchBarDelegate, UIColle
         collectionView.delegate = self
         collectionView.dataSource = self
         setupTableView()
+        setupDividers()
         collectionView.register(UINib(nibName: "TripGalleryCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TripGalleryCollectionViewCell")
+    }
+    
+    func setupDividers() {
+        let divider1 = UIView()
+        divider1.backgroundColor = .lightGray
+        divider1.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(divider1)
+        
+        NSLayoutConstraint.activate([
+            divider1.topAnchor.constraint(equalTo: populationLabel.bottomAnchor, constant: 8),
+            divider1.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            divider1.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            divider1.heightAnchor.constraint(equalToConstant: 1)
+        ])
+        
+        let divider2 = UIView()
+        divider2.backgroundColor = .lightGray
+        divider2.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(divider2)
+        
+        NSLayoutConstraint.activate([
+            divider2.topAnchor.constraint(equalTo: distanceLabel.bottomAnchor, constant: 8),
+            divider2.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            divider2.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            divider2.heightAnchor.constraint(equalToConstant: 1)
+        ])
     }
     
     func setupTableView() {
@@ -168,22 +193,13 @@ class ResultsSheetViewController: UIViewController, UISearchBarDelegate, UIColle
         }
     }
     
-    func updateUI(with place: GMSPlace) {
-        
-        // Calculate distance from user location
-        if let userLocation = LocationManager.shared.manager.location {
-            let placeLocation = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
-            let distance = userLocation.distance(from: placeLocation) / 1000
-            distanceLabel.text = String(format: "%.0f km", distance)
-        }
-    }
-    
     func fetchCountryDetails(for country: String, retryCount: Int = 3) {
         fetchPopulation(for: country, retryCount: retryCount) {
             self.fetchSummary(for: country, retryCount: retryCount) {
                 self.fetchImages(for: country) {
                     self.activityIndicator.stopAnimating()
                     self.showUIElements()
+                    self.placesViewController?.showPolyline()
                 }
             }
         }
@@ -302,6 +318,86 @@ class ResultsSheetViewController: UIViewController, UISearchBarDelegate, UIColle
         }.resume()
     }
     
+    @IBAction func seePlacesToExploreTapped(_ sender: Any) {
+        guard let countryName = countryNameLabel.text else { return }
+        fetchCities(for: countryName) { cities in
+            DispatchQueue.main.async {
+                guard let citiesVC = self.storyboard?.instantiateViewController(withIdentifier: "CitiesViewController") as? CitiesViewController else {
+                    print("Failed to instantiate CitiesViewController from storyboard.")
+                    return
+                }
+                citiesVC.cities = cities
+                citiesVC.placesViewController = self.placesViewController
+                let floatingPanel = FloatingPanelController()
+                floatingPanel.set(contentViewController: citiesVC)
+                self.dismiss(animated: true) {
+                    floatingPanel.addPanel(toParent: self.placesViewController!)
+                    floatingPanel.move(to: .half, animated: true)
+                }
+            }
+        }
+    }
+
+    
+    func fetchCities(for country: String, completion: @escaping ([City]) -> Void) {
+        let urlString = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=cities+in+\(country)&key=AIzaSyDLpWZCxK62J2vMItzi_yGuyCfMfdFgeeA"
+        guard let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else { return }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Failed to fetch cities: \(error?.localizedDescription ?? "Unknown error")")
+                completion([])
+                return
+            }
+            
+            do {
+                let response = try JSONDecoder().decode(GooglePlacesSearchResult.self, from: data)
+                var cities: [City] = []
+                let group = DispatchGroup()
+                
+                for result in response.results {
+                    group.enter()
+                    
+                    self.fetchPhotoURL(for: result.photos?.first?.photo_reference ?? "", apiKey: "AIzaSyDLpWZCxK62J2vMItzi_yGuyCfMfdFgeeA") { photoResult in
+                        switch photoResult {
+                        case .success(let url):
+                            let city = City(
+                                name: result.name,
+                                country: country,
+                                imageUrl: url,
+                                latitude: result.geometry.location.lat,
+                                longitude: result.geometry.location.lng
+                            )
+                            cities.append(city)
+                        case .failure(let error):
+                            print("Error fetching photo URL: \(error)")
+                        }
+                        group.leave()
+                    }
+                }
+                
+                group.notify(queue: .main) {
+                    completion(cities)
+                }
+                
+            } catch {
+                print("Failed to decode cities response: \(error)")
+                completion([])
+            }
+        }.resume()
+    }
+    
+    func fetchPhotoURL(for photoReference: String, apiKey: String, completion: @escaping (Result<String, Error>) -> Void) {
+        let urlString = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=\(photoReference)&key=\(apiKey)"
+        
+        guard let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else {
+            completion(.failure(NSError(domain: "InvalidURL", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
+            return
+        }
+        
+        completion(.success(urlString))
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResults.count
     }
@@ -317,6 +413,7 @@ class ResultsSheetViewController: UIViewController, UISearchBarDelegate, UIColle
         let result = searchResults[indexPath.row]
         fetchPlaceDetails(for: result.placeID)
         tableView.isHidden = true
+        self.hideUIElements()
     }
     
     func showSearchResults() {

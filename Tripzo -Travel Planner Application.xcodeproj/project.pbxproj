@@ -108,6 +108,7 @@
 		33ED778B2C164956002AFBEB /* ResultsSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ED778A2C164956002AFBEB /* ResultsSheetViewController.swift */; };
 		33ED778E2C165609002AFBEB /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = 33ED778D2C165609002AFBEB /* FloatingPanel */; };
 		33ED77902C166735002AFBEB /* CountryDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ED778F2C166735002AFBEB /* CountryDetail.swift */; };
+		33ED77922C171B55002AFBEB /* CitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ED77912C171B55002AFBEB /* CitiesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -177,6 +178,7 @@
 		33ED77862C15D3FF002AFBEB /* ItineraryDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryDetailsViewController.swift; sourceTree = "<group>"; };
 		33ED778A2C164956002AFBEB /* ResultsSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsSheetViewController.swift; sourceTree = "<group>"; };
 		33ED778F2C166735002AFBEB /* CountryDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetail.swift; sourceTree = "<group>"; };
+		33ED77912C171B55002AFBEB /* CitiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -321,6 +323,7 @@
 				33C164A82C11F88000AF9A30 /* SelectedTripsCollectionViewCell.xib */,
 				33ED77862C15D3FF002AFBEB /* ItineraryDetailsViewController.swift */,
 				33ED778A2C164956002AFBEB /* ResultsSheetViewController.swift */,
+				33ED77912C171B55002AFBEB /* CitiesViewController.swift */,
 			);
 			path = "Trip Details";
 			sourceTree = "<group>";
@@ -542,6 +545,7 @@
 				3372305C2BB8CD7A00E3E828 /* SceneDelegate.swift in Sources */,
 				339961B32BEA951C00791F81 /* SelectedTripViewController.swift in Sources */,
 				339961B12BEA538600791F81 /* Place.swift in Sources */,
+				33ED77922C171B55002AFBEB /* CitiesViewController.swift in Sources */,
 				339961982BE1496600791F81 /* CardView.swift in Sources */,
 				33A937182BEB741F009A760B /* SuggestedTripsViewController.swift in Sources */,
 				33ED778B2C164956002AFBEB /* ResultsSheetViewController.swift in Sources */,

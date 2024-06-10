@@ -11,6 +11,8 @@ import SDWebImage
 
 class WeatherForecastCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var weatherView: CardView!
+    
     @IBOutlet weak var weatherIconImageView: UIImageView!
     
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -25,6 +27,9 @@ class WeatherForecastCollectionViewCell: UICollectionViewCell {
     
     
     func configure(with weather: DailyWeather) {
+        
+        self.layer.cornerRadius = 20
+        self.backgroundColor = .lightGray
             let tempCelsius = Int(weather.temp.day - 273.15)  // Convert Kelvin to Celsius
             temperatureLabel.text = "\(tempCelsius)°C"
             temperatureLabel.font = UIFont.systemFont(ofSize: 20)
