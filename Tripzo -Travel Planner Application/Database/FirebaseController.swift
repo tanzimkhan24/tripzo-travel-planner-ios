@@ -45,6 +45,74 @@ class FirebaseController: NSObject, DatabaseProtocol {
             }
         }
     }
+    
+    func addItinerary(itinerary: Itinerary, completion: @escaping (Error?) -> Void) {
+        guard let uid = currentUser?.uid else {
+            completion(NSError(domain: "FirebaseController", code: -1, userInfo: [NSLocalizedDescriptionKey: "No user UID found"]))
+            return
+        }
+        
+        do {
+            let itineraryData = try JSONEncoder().encode(itinerary)
+            guard let itineraryDictionary = try JSONSerialization.jsonObject(with: itineraryData, options: []) as? [String: Any] else {
+                completion(NSError(domain: "FirebaseController", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to serialize itinerary"]))
+                return
+            }
+            
+            usersRef?.document(uid).updateData([
+                "itineraries": FieldValue.arrayUnion([itineraryDictionary])
+            ]) { error in
+                completion(error)
+            }
+        } catch {
+            completion(error)
+        }
+    }
+
+    func deleteItinerary(itinerary: Itinerary, completion: @escaping (Error?) -> Void) {
+        guard let uid = currentUser?.uid else {
+            completion(NSError(domain: "FirebaseController", code: -1, userInfo: [NSLocalizedDescriptionKey: "No user UID found"]))
+            return
+        }
+        
+        do {
+            let itineraryData = try JSONEncoder().encode(itinerary)
+            guard let itineraryDictionary = try JSONSerialization.jsonObject(with: itineraryData, options: []) as? [String: Any] else {
+                completion(NSError(domain: "FirebaseController", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to serialize itinerary"]))
+                return
+            }
+            
+            usersRef?.document(uid).updateData([
+                "itineraries": FieldValue.arrayRemove([itineraryDictionary])
+            ]) { error in
+                completion(error)
+            }
+        } catch {
+            completion(error)
+        }
+    }
+
+    func getItineraries(completion: @escaping (Result<[Itinerary], Error>) -> Void) {
+        guard let uid = currentUser?.uid else {
+            completion(.failure(NSError(domain: "FirebaseController", code: -1, userInfo: [NSLocalizedDescriptionKey: "No user UID found"])))
+            return
+        }
+        
+        usersRef?.document(uid).getDocument { document, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let document = document, document.exists,
+                  let user = try? document.data(as: Users.self) else {
+                completion(.failure(NSError(domain: "FirebaseController", code: -1, userInfo: [NSLocalizedDescriptionKey: "User document does not exist"])))
+                return
+            }
+            
+            completion(.success(user.itineraries ?? []))
+        }
+    }
 
     
     func addAuthListener() {

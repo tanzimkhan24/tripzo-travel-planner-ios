@@ -31,6 +31,9 @@ protocol DatabaseListener: AnyObject {
 protocol DatabaseProtocol: AnyObject {
     
     func getCurrentUser(completion: @escaping (Users?) -> Void)
+    func addItinerary(itinerary: Itinerary, completion: @escaping (Error?) -> Void)
+    func deleteItinerary(itinerary: Itinerary, completion: @escaping (Error?) -> Void)
+    func getItineraries(completion: @escaping (Result<[Itinerary], Error>) -> Void)
     
     func addUser(name: String?, phoneNumber: String?, country: String?, gender: String?, email: String?)
     func signInWithGoogle(presentingViewController: UIViewController)

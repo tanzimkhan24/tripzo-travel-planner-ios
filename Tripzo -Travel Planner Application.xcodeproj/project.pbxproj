@@ -17,8 +17,6 @@
 		331A2D832BD8F66300E62149 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 331A2D822BD8F66300E62149 /* FacebookLogin */; };
 		331A2D862BD92E8D00E62149 /* HomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331A2D852BD92E8D00E62149 /* HomeScreenViewController.swift */; };
 		331A2D892BD94F2E00E62149 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331A2D882BD94F2E00E62149 /* Users.swift */; };
-		331A2D8B2BD95E1A00E62149 /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331A2D8A2BD95E1A00E62149 /* CreateUserViewController.swift */; };
-		331A2D912BDAE12800E62149 /* TestScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331A2D902BDAE12800E62149 /* TestScreenViewController.swift */; };
 		331A2D942BE1148C00E62149 /* google-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 331A2D932BE1148C00E62149 /* google-white.png */; };
 		331A2D962BE11B2B00E62149 /* facebook-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 331A2D952BE11B2B00E62149 /* facebook-logo.png */; };
 		331A2D982BE11B6C00E62149 /* fb-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 331A2D972BE11B6C00E62149 /* fb-logo.png */; };
@@ -102,13 +100,13 @@
 		33E410E42BD8C5E40058EA3D /* DatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E410E32BD8C5E40058EA3D /* DatabaseProtocol.swift */; };
 		33E410E62BD8C6030058EA3D /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E410E52BD8C6030058EA3D /* FirebaseController.swift */; };
 		33E410E82BD8C6CE0058EA3D /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E410E72BD8C6CE0058EA3D /* MulticastDelegate.swift */; };
-		33E410F72BD8D49F0058EA3D /* SignUpScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E410F62BD8D49F0058EA3D /* SignUpScreenViewController.swift */; };
 		33E410F92BD8D7DD0058EA3D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33E410F82BD8D7DD0058EA3D /* GoogleService-Info.plist */; };
 		33ED77872C15D3FF002AFBEB /* ItineraryDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ED77862C15D3FF002AFBEB /* ItineraryDetailsViewController.swift */; };
 		33ED778B2C164956002AFBEB /* ResultsSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ED778A2C164956002AFBEB /* ResultsSheetViewController.swift */; };
 		33ED778E2C165609002AFBEB /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = 33ED778D2C165609002AFBEB /* FloatingPanel */; };
 		33ED77902C166735002AFBEB /* CountryDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ED778F2C166735002AFBEB /* CountryDetail.swift */; };
 		33ED77922C171B55002AFBEB /* CitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ED77912C171B55002AFBEB /* CitiesViewController.swift */; };
+		33ED77942C17844F002AFBEB /* SignUpSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ED77932C17844F002AFBEB /* SignUpSignInViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -116,8 +114,6 @@
 		33181E3D2C14988900E888AD /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		331A2D852BD92E8D00E62149 /* HomeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewController.swift; sourceTree = "<group>"; };
 		331A2D882BD94F2E00E62149 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
-		331A2D8A2BD95E1A00E62149 /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
-		331A2D902BDAE12800E62149 /* TestScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestScreenViewController.swift; sourceTree = "<group>"; };
 		331A2D932BE1148C00E62149 /* google-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "google-white.png"; sourceTree = "<group>"; };
 		331A2D952BE11B2B00E62149 /* facebook-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook-logo.png"; sourceTree = "<group>"; };
 		331A2D972BE11B6C00E62149 /* fb-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fb-logo.png"; sourceTree = "<group>"; };
@@ -173,12 +169,12 @@
 		33E410E32BD8C5E40058EA3D /* DatabaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseProtocol.swift; sourceTree = "<group>"; };
 		33E410E52BD8C6030058EA3D /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
 		33E410E72BD8C6CE0058EA3D /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
-		33E410F62BD8D49F0058EA3D /* SignUpScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpScreenViewController.swift; sourceTree = "<group>"; };
 		33E410F82BD8D7DD0058EA3D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		33ED77862C15D3FF002AFBEB /* ItineraryDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryDetailsViewController.swift; sourceTree = "<group>"; };
 		33ED778A2C164956002AFBEB /* ResultsSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsSheetViewController.swift; sourceTree = "<group>"; };
 		33ED778F2C166735002AFBEB /* CountryDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetail.swift; sourceTree = "<group>"; };
 		33ED77912C171B55002AFBEB /* CitiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesViewController.swift; sourceTree = "<group>"; };
+		33ED77932C17844F002AFBEB /* SignUpSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpSignInViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -342,9 +338,7 @@
 				33CC6D262BD6719100F19388 /* StartPageViewController.swift */,
 				33E410D32BD81D650058EA3D /* StartScreenSlide.swift */,
 				33E410D52BD820FF0058EA3D /* StartScreenCollectionViewCell.swift */,
-				33E410F62BD8D49F0058EA3D /* SignUpScreenViewController.swift */,
-				331A2D8A2BD95E1A00E62149 /* CreateUserViewController.swift */,
-				331A2D902BDAE12800E62149 /* TestScreenViewController.swift */,
+				33ED77932C17844F002AFBEB /* SignUpSignInViewController.swift */,
 			);
 			path = "Start Screens";
 			sourceTree = "<group>";
@@ -512,7 +506,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				331A2D912BDAE12800E62149 /* TestScreenViewController.swift in Sources */,
 				339961A72BE1625D00791F81 /* TripGallery.swift in Sources */,
 				339961942BE1332800791F81 /* CategoryCollectionViewCell.swift in Sources */,
 				3399619B2BE14D9D00791F81 /* TripViewCollectionViewCell.swift in Sources */,
@@ -523,15 +516,14 @@
 				33CC6D272BD6719100F19388 /* StartPageViewController.swift in Sources */,
 				339961A92BE2351D00791F81 /* UIViewController+Extension.swift in Sources */,
 				33E410D42BD81D650058EA3D /* StartScreenSlide.swift in Sources */,
-				33E410F72BD8D49F0058EA3D /* SignUpScreenViewController.swift in Sources */,
 				331A2D862BD92E8D00E62149 /* HomeScreenViewController.swift in Sources */,
 				33C164A62BFDD80C00AF9A30 /* ViewAllTripsViewController.swift in Sources */,
 				33ED77902C166735002AFBEB /* CountryDetail.swift in Sources */,
+				33ED77942C17844F002AFBEB /* SignUpSignInViewController.swift in Sources */,
 				33ED77872C15D3FF002AFBEB /* ItineraryDetailsViewController.swift in Sources */,
 				339961A12BE1609300791F81 /* TripViewDetailsViewController.swift in Sources */,
 				33181E3C2C147E2900E888AD /* Itinerary.swift in Sources */,
 				339961AB2BE26D4600791F81 /* PlacesViewController.swift in Sources */,
-				331A2D8B2BD95E1A00E62149 /* CreateUserViewController.swift in Sources */,
 				33A937072BEAA802009A760B /* WeatherForecastCollectionViewCell.swift in Sources */,
 				3399619E2BE14F7700791F81 /* Trip.swift in Sources */,
 				339961A42BE160B200791F81 /* TripGalleryCollectionViewCell.swift in Sources */,

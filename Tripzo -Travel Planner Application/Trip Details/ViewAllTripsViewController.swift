@@ -9,14 +9,41 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, DatabaseListener {
+    
+    
+    func onSignIn() {
+        //
+    }
+    
+    func onAccountCreated() {
+        //
+    }
+    
+    func onError(_ error: any Error) {
+        //
+    }
+    
+    func onSignOut() {
+        //
+    }
+    
+    func onNewUser(userDetails: Users?) {
+        //
+    }
+    
+    
+    
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var mapView: MKMapView!
     var itineraries: [Itinerary] = []
     weak var homeScreenViewController: HomeScreenViewController?
     var selectedAttractions: [Attraction] = []
-
+    
+    weak var databaseController: DatabaseProtocol?
+    var listenerType = ListenerType.all
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,6 +63,10 @@ class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollect
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         longPressRecognizer.minimumPressDuration = 1.0 // Duration in seconds
         collectionView.addGestureRecognizer(longPressRecognizer)
+        
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        databaseController = appDelegate?.databaseController
+        loadItineraries()
     }
     
     func setupNavigationBar() {
@@ -114,23 +145,30 @@ class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollect
             
             let itinerary = Itinerary(cityName: firstAttraction.cityName, countryName: firstAttraction.countryName, attractions: self.selectedAttractions, imageUrl: imageUrl)
             
-            var savedItineraries = self.loadItineraries()
-            savedItineraries.append(itinerary)
-            self.saveItineraries(savedItineraries)
-            
-            DispatchQueue.main.async {
-                self.homeScreenViewController?.itineraries = savedItineraries
+            self.databaseController?.addItinerary(itinerary: itinerary) { error in
+                if let error = error {
+                    print("Error adding itinerary: \(error.localizedDescription)")
+                    self.displayMessage(title: "Error", message: "Could not save the itinerary. Please try again.")
+                    return
+                }
                 
-                let alert = UIAlertController(title: "Trip Created", message: "Your trip has been created successfully.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                    if let homeVC = self.navigationController?.viewControllers.first(where: { $0 is HomeScreenViewController }) as? HomeScreenViewController {
-                        homeVC.itineraries = savedItineraries
-                        self.navigationController?.popToViewController(homeVC, animated: true)
-                    } else {
-                        self.navigationController?.popToRootViewController(animated: true)
-                    }
-                }))
-                self.present(alert, animated: true)
+                self.itineraries.append(itinerary)
+                self.saveItineraries(self.itineraries)
+                
+                DispatchQueue.main.async {
+                    self.homeScreenViewController?.itineraries = self.itineraries
+                    
+                    let alert = UIAlertController(title: "Trip Created", message: "Your trip has been created successfully.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+                        if let homeVC = self.navigationController?.viewControllers.first(where: { $0 is HomeScreenViewController }) as? HomeScreenViewController {
+                            homeVC.itineraries = self.itineraries
+                            self.navigationController?.popToViewController(homeVC, animated: true)
+                        } else {
+                            self.navigationController?.popToRootViewController(animated: true)
+                        }
+                    }))
+                    self.present(alert, animated: true)
+                }
             }
         }
     }
@@ -142,14 +180,18 @@ class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollect
         }
     }
     
-    func loadItineraries() -> [Itinerary] {
-        if let savedItineraries = UserDefaults.standard.object(forKey: "itineraries") as? Data {
-            let decoder = JSONDecoder()
-            if let loadedItineraries = try? decoder.decode([Itinerary].self, from: savedItineraries) {
-                return loadedItineraries
+    func loadItineraries() {
+        databaseController?.getItineraries { result in
+            switch result {
+            case .success(let itineraries):
+                self.itineraries = itineraries
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            case .failure(let error):
+                print("Error loading itineraries: \(error.localizedDescription)")
             }
         }
-        return []
     }
     
     func fetchImageForCity(city: String, completion: @escaping (String?) -> Void) {
@@ -222,7 +264,8 @@ class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollect
             
             let alert = UIAlertController(title: "Delete Trip", message: "Are you sure you want to delete the trip to \(attraction.title)?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
+                guard let self = self else { return }
                 self.selectedAttractions.remove(at: indexPath.item)
                 self.collectionView.deleteItems(at: [indexPath])
                 self.displayAttractionsOnMap()
@@ -230,8 +273,26 @@ class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollect
                 if self.selectedAttractions.isEmpty {
                     self.showNoTripsMessage()
                 }
+                
+                // Update Firestore
+                self.databaseController?.deleteItinerary(itinerary: self.itineraries[indexPath.row]) { error in
+                    if let error = error {
+                        print("Error deleting itinerary: \(error.localizedDescription)")
+                        self.displayMessage(title: "Error", message: "Could not delete the itinerary. Please try again.")
+                        return
+                    }
+                    
+                    self.itineraries.remove(at: indexPath.row)
+                    self.saveItineraries(self.itineraries)
+                }
             }))
             present(alert, animated: true, completion: nil)
         }
+    }
+    
+    func displayMessage(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alertController, animated: true, completion: nil)
     }
 }

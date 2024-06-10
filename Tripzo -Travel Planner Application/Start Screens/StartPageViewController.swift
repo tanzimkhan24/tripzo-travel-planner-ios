@@ -21,7 +21,7 @@ class StartPageViewController: UIViewController {
     @IBAction func nextButtonClicked(_ sender: Any) {
         
         if currentPage == slides.count - 1 {
-            let controller = storyboard?.instantiateViewController(identifier: "SignUpVC") as! UINavigationController
+            let controller = storyboard?.instantiateViewController(identifier: "SignUpSignInVC") as! UINavigationController
             controller.modalPresentationStyle = .fullScreen
             controller.modalTransitionStyle = .flipHorizontal
             present(controller, animated: true, completion: nil)

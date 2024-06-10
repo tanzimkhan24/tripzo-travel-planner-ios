@@ -17,7 +17,8 @@ class Users: NSObject, Codable {
     var country: String?
     var gender: String?
     var email: String?
-    
+    var itineraries: [Itinerary]?
+
     enum CodingKeys: String, CodingKey {
         case id
         case name
@@ -25,6 +26,6 @@ class Users: NSObject, Codable {
         case country
         case gender
         case email
+        case itineraries
     }
-
 }

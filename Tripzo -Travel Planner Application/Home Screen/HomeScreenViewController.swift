@@ -9,8 +9,35 @@
 
 import UIKit
 import CoreLocation
+import FirebaseFirestoreSwift
 
 class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationManagerDelegate {
+    
+    
+    func onSignIn() {
+        //
+    }
+    
+    func onAccountCreated() {
+        //
+    }
+    
+    func onError(_ error: any Error) {
+        //
+    }
+    
+    func onSignOut() {
+        //
+    }
+    
+    func onNewUser(userDetails: Users?) {
+        //
+    }
+    
+    weak var databaseController: DatabaseProtocol?
+        
+    var listenerType = ListenerType.all
+    
     
     @IBOutlet weak var yourTripsCollectionView: UICollectionView!
     @IBOutlet weak var tripCategoryCollectionView: UICollectionView!
@@ -54,36 +81,6 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
     
     let activityIndicator = UIActivityIndicatorView(style: .large)
     
-    func onNewUser(userDetails: Users?) {
-        //
-    }
-    
-    weak var databaseController: DatabaseProtocol?
-    
-    var listenerType = ListenerType.all
-    
-    func onSignIn() {
-        //
-    }
-    
-    func onAccountCreated() {
-        //
-    }
-    
-    func onError(_ error: any Error) {
-        print("Error")
-        let message = error.localizedDescription
-        DispatchQueue.main.async {
-            self.displayMessage(title: "Logout Error", message: message)
-        }
-    }
-    
-    func onSignOut() {
-        print("SignOutSuccess")
-        DispatchQueue.main.async {
-            self.displayMessage(title: "Success", message: "Successfully signed out!")
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,7 +95,7 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
         yourTripsCollectionView.dataSource = self
         
         registerCells()
-        itineraries = loadItineraries()
+        loadItineraries()
         
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         yourTripsCollectionView.addGestureRecognizer(longPressRecognizer)
@@ -142,22 +139,31 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
     }
     
     func saveItineraries(_ itineraries: [Itinerary]) {
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(itineraries) {
-            UserDefaults.standard.set(encoded, forKey: "itineraries")
-        }
-        print("Itineraries saved: \(itineraries)")
-    }
-    
-    func loadItineraries() -> [Itinerary] {
-        if let savedItineraries = UserDefaults.standard.object(forKey: "itineraries") as? Data {
-            let decoder = JSONDecoder()
-            if let loadedItineraries = try? decoder.decode([Itinerary].self, from: savedItineraries) {
-                print("Itineraries loaded: \(loadedItineraries)")
-                return loadedItineraries
+        guard let databaseController = databaseController else { return }
+
+        for itinerary in itineraries {
+            databaseController.addItinerary(itinerary: itinerary) { error in
+                if let error = error {
+                    print("Error adding itinerary: \(error.localizedDescription)")
+                    return
+                }
+                print("Itinerary saved: \(itinerary)")
             }
         }
-        return []
+    }
+    
+    func loadItineraries() {
+        databaseController?.getItineraries { result in
+            switch result {
+            case .success(let itineraries):
+                self.itineraries = itineraries
+                DispatchQueue.main.async {
+                    self.yourTripsCollectionView.reloadData()
+                }
+            case .failure(let error):
+                print("Error loading itineraries: \(error.localizedDescription)")
+            }
+        }
     }
     
     func displayMessage(title: String, message: String) {
@@ -176,12 +182,20 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
             let alert = UIAlertController(title: "Delete Trip", message: "Are you sure you want to delete this trip?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                // Update the data source
-                self.itineraries.remove(at: indexPath.row)
-                self.saveItineraries(self.itineraries)
-                
-                // Reload the collection view to reflect the changes
-                self.yourTripsCollectionView.reloadData()
+                let itineraryToDelete = self.itineraries[indexPath.row]
+                self.databaseController?.deleteItinerary(itinerary: itineraryToDelete) { error in
+                    if let error = error {
+                        print("Error deleting itinerary: \(error.localizedDescription)")
+                        self.displayMessage(title: "Error", message: "Could not delete the itinerary. Please try again.")
+                        return
+                    }
+                    
+                    self.itineraries.remove(at: indexPath.row)
+                    self.yourTripsCollectionView.deleteItems(at: [indexPath])
+                    
+                    // Reload the collection view to reflect the changes
+                    self.yourTripsCollectionView.reloadData()
+                }
             }))
             present(alert, animated: true, completion: nil)
         }
@@ -348,14 +362,35 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
     
     func fetchCategoriesFromTrips() {
         let categoriesSet = Set(popular.compactMap { $0.category })
-        categories = categoriesSet.map {
-            TripCategory(id: UUID().uuidString, name: $0, image: .screen1)
+        
+        categories = categoriesSet.map { category in
+            let imageName: String
+            switch category {
+            case "Nature":
+                imageName = "Nature"
+            case "Leisure":
+                imageName = "Leisure"
+            case "Shopping":
+                imageName = "Shopping"
+            case "Dining":
+                imageName = "Dining"
+            case "Historical":
+                imageName = "Historical"
+            case "Entertainment":
+                imageName = "Entertainment"
+            default:
+                imageName = "default" // Provide a default image name if necessary
+            }
+            
+            return TripCategory(id: UUID().uuidString, name: category, image: UIImage(named: imageName) ?? UIImage())
         }
+        
         DispatchQueue.main.async {
             print("Categories: \(self.categories)")
             self.tripCategoryCollectionView.reloadData()
         }
     }
+
 
 }
 
