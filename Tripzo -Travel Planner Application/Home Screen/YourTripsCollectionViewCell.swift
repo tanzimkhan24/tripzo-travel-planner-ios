@@ -21,10 +21,12 @@ class YourTripsCollectionViewCell: UICollectionViewCell {
         tripCity.text = itinerary.cityName
         tripCountry.text = itinerary.countryName
         
-        if let firstAttraction = itinerary.attractions.first, let imageUrl = firstAttraction.imageUrl, let url = URL(string: imageUrl) {
-            tripImage.sd_setImage(with: url, completed: nil)
+        tripImage.layer.cornerRadius = 5
+        
+        if let imageUrl = itinerary.imageUrl, let url = URL(string: imageUrl) {
+            tripImage.sd_setImage(with: url, placeholderImage: UIImage(named: "placeholder"))
         } else {
-            tripImage.image = UIImage(systemName: "photo")
+            tripImage.image = UIImage(named: "placeholder")
         }
     }
     

@@ -16,45 +16,77 @@
                 <rect key="frame" x="0.0" y="0.0" width="173" height="224"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OOq-K0-cqK">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UAs-Mi-fcp" customClass="CardView" customModule="Tripzo__Travel_Planner_Application" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="173" height="224"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CGU-DQ-xHG">
-                                <rect key="frame" x="40" y="15" width="93" height="79"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="caQ-tk-wjq">
-                                <rect key="frame" x="65" y="138" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="2OG-F9-pE4">
+                                <rect key="frame" x="8" y="10" width="157" height="204"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CGU-DQ-xHG">
+                                        <rect key="frame" x="0.0" y="0.0" width="157" height="99"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="xht-Ve-vKM"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="zlO-Bx-WFJ"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temperature" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="caQ-tk-wjq">
+                                        <rect key="frame" x="0.0" y="109" width="157" height="22.666666666666657"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S3z-W0-FbZ">
+                                        <rect key="frame" x="0.0" y="141.66666666666666" width="157" height="15.666666666666657"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weather Description" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QNh-wJ-PnM">
+                                        <rect key="frame" x="0.0" y="167.33333333333334" width="157" height="13.333333333333343"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Humidity" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZG-zC-Pri">
+                                        <rect key="frame" x="0.0" y="190.66666666666666" width="157" height="13.333333333333343"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="CGU-DQ-xHG" firstAttribute="top" secondItem="2OG-F9-pE4" secondAttribute="top" id="0YT-0f-Bvy"/>
+                                    <constraint firstItem="CGU-DQ-xHG" firstAttribute="leading" secondItem="2OG-F9-pE4" secondAttribute="leading" id="dmJ-Cr-iJH"/>
+                                    <constraint firstAttribute="trailing" secondItem="CGU-DQ-xHG" secondAttribute="trailing" id="jHo-9h-2ZM"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="caQ-tk-wjq" firstAttribute="leading" secondItem="OOq-K0-cqK" secondAttribute="leading" constant="65" id="02c-Pz-535"/>
-                            <constraint firstItem="CGU-DQ-xHG" firstAttribute="top" secondItem="OOq-K0-cqK" secondAttribute="top" constant="15" id="7Rh-l5-hTg"/>
-                            <constraint firstAttribute="trailing" secondItem="CGU-DQ-xHG" secondAttribute="trailing" constant="40" id="EiV-gr-7W8"/>
-                            <constraint firstItem="caQ-tk-wjq" firstAttribute="top" secondItem="CGU-DQ-xHG" secondAttribute="bottom" constant="44" id="Rbn-hz-8do"/>
-                            <constraint firstAttribute="bottom" secondItem="caQ-tk-wjq" secondAttribute="bottom" constant="65" id="TlY-Ef-Wt6"/>
-                            <constraint firstAttribute="trailing" secondItem="caQ-tk-wjq" secondAttribute="trailing" constant="66" id="apF-JR-TD5"/>
-                            <constraint firstItem="CGU-DQ-xHG" firstAttribute="leading" secondItem="OOq-K0-cqK" secondAttribute="leading" constant="40" id="itN-Zh-GNE"/>
+                            <constraint firstAttribute="trailing" secondItem="2OG-F9-pE4" secondAttribute="trailing" constant="8" id="33V-1t-frc"/>
+                            <constraint firstAttribute="bottom" secondItem="2OG-F9-pE4" secondAttribute="bottom" constant="10" id="5X4-nK-UNQ"/>
+                            <constraint firstItem="2OG-F9-pE4" firstAttribute="leading" secondItem="UAs-Mi-fcp" secondAttribute="leading" constant="8" id="Thi-pO-Gaf"/>
+                            <constraint firstItem="2OG-F9-pE4" firstAttribute="top" secondItem="UAs-Mi-fcp" secondAttribute="top" constant="10" id="roF-IX-PXA"/>
                         </constraints>
                     </view>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstItem="OOq-K0-cqK" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Lps-Mj-88e"/>
-                <constraint firstItem="OOq-K0-cqK" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="lXV-hU-vb7"/>
-                <constraint firstAttribute="trailing" secondItem="OOq-K0-cqK" secondAttribute="trailing" id="nTb-13-TtG"/>
-                <constraint firstAttribute="bottom" secondItem="OOq-K0-cqK" secondAttribute="bottom" id="zZb-Gs-F7b"/>
+                <constraint firstItem="UAs-Mi-fcp" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="9Mv-wp-DPt"/>
+                <constraint firstAttribute="bottom" secondItem="UAs-Mi-fcp" secondAttribute="bottom" id="PSe-Nk-Hi5"/>
+                <constraint firstItem="UAs-Mi-fcp" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="SP1-3b-r5T"/>
+                <constraint firstAttribute="trailing" secondItem="UAs-Mi-fcp" secondAttribute="trailing" id="Sif-1c-lr8"/>
             </constraints>
             <size key="customSize" width="173" height="224"/>
             <connections>
-                <outlet property="cardView" destination="OOq-K0-cqK" id="NwX-ph-rQL"/>
+                <outlet property="date" destination="S3z-W0-FbZ" id="Ry5-A8-gTB"/>
+                <outlet property="humidityLabel" destination="YZG-zC-Pri" id="u9b-DI-Neu"/>
                 <outlet property="temperatureLabel" destination="caQ-tk-wjq" id="BoF-W4-vzT"/>
+                <outlet property="weatherDescriptionLabel" destination="QNh-wJ-PnM" id="dfe-Rq-GNL"/>
                 <outlet property="weatherIconImageView" destination="CGU-DQ-xHG" id="ueq-gb-0ta"/>
             </connections>
-            <point key="canvasLocation" x="43.511450381679388" y="80.985915492957744"/>
+            <point key="canvasLocation" x="43.511450381679388" y="80.281690140845072"/>
         </collectionViewCell>
     </objects>
 </document>

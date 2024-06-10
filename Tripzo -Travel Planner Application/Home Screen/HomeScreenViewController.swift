@@ -190,8 +190,9 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "viewAllTrips", let viewAllTripsVC = segue.destination as? ViewAllTripsViewController {
             viewAllTripsVC.homeScreenViewController = self
-        } else if segue.identifier == "showSuggestedTrips", let suggestedTripsVC = segue.destination as? SuggestedTripsViewController {
-            // Pass any necessary data to SuggestedTripsViewController here
+        } else if segue.identifier == "showItineraryDetails", let itineraryDetailsVC = segue.destination as? ItineraryDetailsViewController, let selectedItinerary = sender as? Itinerary {
+            itineraryDetailsVC.itinerary = selectedItinerary
+            itineraryDetailsVC.tripLabelText = "Your trip to \(selectedItinerary.cityName)"
         }
     }
     
@@ -355,6 +356,7 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
             self.tripCategoryCollectionView.reloadData()
         }
     }
+
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
@@ -399,7 +401,8 @@ extension HomeScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             filteredTrips = popular.filter { $0.category == selectedCategory }
             popularTripsCollectionView.reloadData()
         } else if collectionView == yourTripsCollectionView {
-            // Handle trip selection
+            let selectedItinerary = itineraries[indexPath.row]
+            performSegue(withIdentifier: "showItineraryDetails", sender: selectedItinerary)
         } else {
             // Handle other selections if needed
         }

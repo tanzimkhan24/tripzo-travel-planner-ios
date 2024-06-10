@@ -8,51 +8,50 @@
 import UIKit
 
 class ImageOverlayTableViewCell: UITableViewCell {
-    
-    let nameLabel = UILabel()
     let cityImageView = UIImageView()
+    let titleLabel = UILabel()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupViews()
-        setupConstraints()
+        setupUI()
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupUI()
     }
-    
-    private func setupViews() {
-        cityImageView.contentMode = .scaleAspectFill
-        cityImageView.clipsToBounds = true
+
+    func setupUI() {
         contentView.addSubview(cityImageView)
-
-        nameLabel.textColor = .white
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 18) // Larger font size
-        nameLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6) // More opaque background
-        nameLabel.textAlignment = .center
-        contentView.addSubview(nameLabel)
-    }
-    
-    private func setupConstraints() {
+        contentView.addSubview(titleLabel)
+        
         cityImageView.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             cityImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            cityImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             cityImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             cityImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            cityImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            nameLabel.heightAnchor.constraint(equalToConstant: 50), // Slightly taller label for better legibility
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
+        
+        cityImageView.contentMode = .scaleAspectFill
+        cityImageView.clipsToBounds = true
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        titleLabel.textColor = .white
+        titleLabel.numberOfLines = 2
     }
-    
+
     func configure(with place: Place) {
-        nameLabel.text = "\(place.name), \(place.country)"
-        cityImageView.image = place.image  // This will be nil initially and set later
+        titleLabel.text = place.name
+        if let image = place.image {
+            cityImageView.image = image
+        } else {
+            cityImageView.image = nil
+        }
     }
 }

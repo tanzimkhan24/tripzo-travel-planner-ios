@@ -17,6 +17,7 @@ struct DailyWeather: Codable {
     let sunset: Int
     let temp: Temperature
     let weather: [WeatherDetail]
+    let humidity: Int
     
     var date: Date? {
             return Date(timeIntervalSince1970: Double(dt))

@@ -11,12 +11,11 @@ import CoreLocation
 
 class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var mapView: MKMapView!
-    var selectedAttractions: [Attraction] = []
     var itineraries: [Itinerary] = []
     weak var homeScreenViewController: HomeScreenViewController?
+    var selectedAttractions: [Attraction] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +69,6 @@ class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollect
         ])
     }
     
-    
     func displayAttractionsOnMap() {
         mapView.removeAnnotations(mapView.annotations) // Remove existing annotations
         for attraction in selectedAttractions {
@@ -101,31 +99,40 @@ class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollect
         present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func createTripPressed(_ sender: Any) {
-        guard let firstAttraction = selectedAttractions.first else { return }
-        let itinerary = Itinerary(cityName: firstAttraction.cityName, countryName: firstAttraction.countryName, attractions: selectedAttractions)
-        var savedItineraries = loadItineraries()
-        savedItineraries.append(itinerary)
-        saveItineraries(savedItineraries)
-        
-        homeScreenViewController?.itineraries = savedItineraries
-
-        let alert = UIAlertController(title: "Trip Created", message: "Your trip has been created successfully.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-            if let homeVC = self.navigationController?.viewControllers.first(where: { $0 is HomeScreenViewController }) as? HomeScreenViewController {
-                homeVC.itineraries = savedItineraries
-                self.navigationController?.popToViewController(homeVC, animated: true)
-            } else {
-                self.navigationController?.popViewController(animated: true)
-            }
-        }))
-        present(alert, animated: true)
-    }
     // MKMapViewDelegate method for clustering
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier, for: annotation) as? MKMarkerAnnotationView
         annotationView?.clusteringIdentifier = "cluster"
         return annotationView
+    }
+    
+    @IBAction func createTripPressed(_ sender: Any) {
+        guard let firstAttraction = selectedAttractions.first else { return }
+        
+        fetchImageForCity(city: firstAttraction.cityName) { [weak self] imageUrl in
+            guard let self = self else { return }
+            
+            let itinerary = Itinerary(cityName: firstAttraction.cityName, countryName: firstAttraction.countryName, attractions: self.selectedAttractions, imageUrl: imageUrl)
+            
+            var savedItineraries = self.loadItineraries()
+            savedItineraries.append(itinerary)
+            self.saveItineraries(savedItineraries)
+            
+            DispatchQueue.main.async {
+                self.homeScreenViewController?.itineraries = savedItineraries
+                
+                let alert = UIAlertController(title: "Trip Created", message: "Your trip has been created successfully.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+                    if let homeVC = self.navigationController?.viewControllers.first(where: { $0 is HomeScreenViewController }) as? HomeScreenViewController {
+                        homeVC.itineraries = savedItineraries
+                        self.navigationController?.popToViewController(homeVC, animated: true)
+                    } else {
+                        self.navigationController?.popToRootViewController(animated: true)
+                    }
+                }))
+                self.present(alert, animated: true)
+            }
+        }
     }
     
     func saveItineraries(_ itineraries: [Itinerary]) {
@@ -143,6 +150,46 @@ class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollect
             }
         }
         return []
+    }
+    
+    func fetchImageForCity(city: String, completion: @escaping (String?) -> Void) {
+        let query = "\(city) cityscape"
+        let urlString = "https://api.unsplash.com/search/photos?page=1&query=\(query)&client_id=tUYcIS_OsEvaS-PteJ5yToLNvmRXnDLUNaTZfKO5R9A"
+        guard let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else {
+            completion(nil)
+            return
+        }
+
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                completion(nil)
+                return
+            }
+
+            do {
+                let jsonResult = try JSONDecoder().decode(UnsplashSearchResult.self, from: data)
+                if let urlString = jsonResult.results.first?.urls.regular {
+                    completion(urlString)
+                } else {
+                    completion(nil)
+                }
+            } catch {
+                completion(nil)
+            }
+        }
+        task.resume()
+    }
+
+    struct UnsplashSearchResult: Codable {
+        let results: [UnsplashPhoto]
+    }
+
+    struct UnsplashPhoto: Codable {
+        let urls: UnsplashPhotoURLs
+    }
+
+    struct UnsplashPhotoURLs: Codable {
+        let regular: String
     }
     
     // UICollectionViewDataSource methods
@@ -187,5 +234,4 @@ class ViewAllTripsViewController: UIViewController, MKMapViewDelegate, UICollect
             present(alert, animated: true, completion: nil)
         }
     }
-    
 }

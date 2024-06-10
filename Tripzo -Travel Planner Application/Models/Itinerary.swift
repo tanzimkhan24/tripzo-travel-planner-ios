@@ -11,14 +11,21 @@ import UIKit
 struct Itinerary: Codable {
     let cityName: String
     let countryName: String
-    let attractions: [Attraction]
-    var imageData: Data?
+    var attractions: [Attraction]
+    var imageUrl: String?
     
     var image: UIImage? {
-        if let data = imageData {
-            return UIImage(data: data)
+        if let urlString = imageUrl, let url = URL(string: urlString) {
+            do {
+                let data = try Data(contentsOf: url)
+                return UIImage(data: data)
+            } catch {
+                print("Error loading image data: \(error)")
+                return nil
+            }
         }
         return nil
     }
 }
+
 

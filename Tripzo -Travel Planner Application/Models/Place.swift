@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import CoreLocation
 
 struct Place {
     let name: String
     let country: String
-    var image: UIImage? 
+    var image: UIImage?
+    var location: CLLocationCoordinate2D?
 }
