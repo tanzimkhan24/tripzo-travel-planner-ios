@@ -35,6 +35,7 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
     }
     
     weak var databaseController: DatabaseProtocol?
+    var userLocation = CLLocationCoordinate2D()
         
     var listenerType = ListenerType.all
     
@@ -122,6 +123,7 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
                 guard let strongSelf = self else {
                     return
                 }
+                strongSelf.userLocation = location.coordinate
                 strongSelf.fetchNearbyCities(location: location)
             }
         }
@@ -150,6 +152,11 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
                 print("Itinerary saved: \(itinerary)")
             }
         }
+        
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(itineraries) {
+            UserDefaults.standard.set(encoded, forKey: "itineraries")
+        }
     }
     
     func loadItineraries() {
@@ -162,6 +169,16 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
                 }
             case .failure(let error):
                 print("Error loading itineraries: \(error.localizedDescription)")
+            }
+        }
+        
+        if let savedData = UserDefaults.standard.data(forKey: "itineraries") {
+            let decoder = JSONDecoder()
+            if let loadedItineraries = try? decoder.decode([Itinerary].self, from: savedData) {
+                self.itineraries = loadedItineraries
+                DispatchQueue.main.async {
+                    self.yourTripsCollectionView.reloadData()
+                }
             }
         }
     }
@@ -207,6 +224,12 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
         } else if segue.identifier == "showItineraryDetails", let itineraryDetailsVC = segue.destination as? ItineraryDetailsViewController, let selectedItinerary = sender as? Itinerary {
             itineraryDetailsVC.itinerary = selectedItinerary
             itineraryDetailsVC.tripLabelText = "Your trip to \(selectedItinerary.cityName)"
+            itineraryDetailsVC.homeScreenViewController = self
+        } else if segue.identifier == "viewPopularTripsSegue", let destinationVC = segue.destination as? ViewPopularTripsViewController, let selectedTrip = sender as? Trip {
+                destinationVC.attractionLocation = CLLocationCoordinate2D(latitude: selectedTrip.latitude, longitude: selectedTrip.longitude)
+            destinationVC.attractionName = selectedTrip.cityName
+            destinationVC.userLocation = userLocation
+            destinationVC.placeID = selectedTrip.id
         }
     }
     
@@ -277,7 +300,9 @@ class HomeScreenViewController: UIViewController, DatabaseListener, CLLocationMa
                                 cityName: place.name,
                                 countryName: countryName,
                                 types: place.types,
-                                category: tripCategory
+                                category: tripCategory,
+                                latitude: place.geometry.location.lat,
+                                longitude: place.geometry.location.lng
                             )
                             self.popular.append(trip)
                         case .failure(let error):
@@ -438,8 +463,9 @@ extension HomeScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         } else if collectionView == yourTripsCollectionView {
             let selectedItinerary = itineraries[indexPath.row]
             performSegue(withIdentifier: "showItineraryDetails", sender: selectedItinerary)
-        } else {
-            // Handle other selections if needed
+        } else if collectionView == popularTripsCollectionView {
+            let selectedTrip = popular[indexPath.row]
+            performSegue(withIdentifier: "viewPopularTripsSegue", sender: selectedTrip)
         }
     }
 }

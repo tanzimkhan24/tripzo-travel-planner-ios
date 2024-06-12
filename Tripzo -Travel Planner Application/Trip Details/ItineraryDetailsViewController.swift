@@ -89,6 +89,8 @@ class ItineraryDetailsViewController: UIViewController, UICollectionViewDataSour
         }
     }
     
+
+    
     @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state != .began {
             return
@@ -118,6 +120,7 @@ class ItineraryDetailsViewController: UIViewController, UICollectionViewDataSour
                 if self.itinerary.attractions.isEmpty {
                     self.navigationController?.popViewController(animated: true)
                 }
+                
             }))
             present(alert, animated: true, completion: nil)
         }

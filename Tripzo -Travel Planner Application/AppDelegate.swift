@@ -8,6 +8,7 @@
 import UIKit
 import FacebookCore
 import GooglePlaces
+import CoreData
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -32,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             GMSPlacesClient.provideAPIKey("AIzaSyDLpWZCxK62J2vMItzi_yGuyCfMfdFgeeA")
             
-            
+
             databaseController = FirebaseController()
 
             return true

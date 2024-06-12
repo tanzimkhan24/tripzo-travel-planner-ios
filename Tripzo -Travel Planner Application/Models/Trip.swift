@@ -16,6 +16,8 @@ struct Trip: Codable {
     let countryName: String
     let types: [String]
     var category: String? 
+    let latitude: Double
+    let longitude: Double
 }
 
 

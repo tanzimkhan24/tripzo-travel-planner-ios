@@ -28,4 +28,6 @@ class Users: NSObject, Codable {
         case email
         case itineraries
     }
+    
+    
 }

@@ -308,12 +308,6 @@ class FirebaseController: NSObject, DatabaseProtocol {
             print("Error signing out from Firebase: %@", signOutError)
         }
 
-        // Sign out from Google
-        GIDSignIn.sharedInstance.signOut()
-
-        // Sign out from Facebook
-        let loginManager = LoginManager()
-        loginManager.logOut()
 
         // Notify listeners about the sign out event
         listeners.invoke { listener in

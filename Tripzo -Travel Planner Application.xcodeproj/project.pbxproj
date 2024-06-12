@@ -107,6 +107,9 @@
 		33ED77902C166735002AFBEB /* CountryDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ED778F2C166735002AFBEB /* CountryDetail.swift */; };
 		33ED77922C171B55002AFBEB /* CitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ED77912C171B55002AFBEB /* CitiesViewController.swift */; };
 		33ED77942C17844F002AFBEB /* SignUpSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ED77932C17844F002AFBEB /* SignUpSignInViewController.swift */; };
+		33ED77962C18AF69002AFBEB /* ViewPopularTripsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ED77952C18AF69002AFBEB /* ViewPopularTripsViewController.swift */; };
+		33ED77982C18B2A0002AFBEB /* PopularAttractionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ED77972C18B2A0002AFBEB /* PopularAttractionDetailsViewController.swift */; };
+		33ED779A2C18D29E002AFBEB /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ED77992C18D29E002AFBEB /* ReviewTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -175,6 +178,9 @@
 		33ED778F2C166735002AFBEB /* CountryDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetail.swift; sourceTree = "<group>"; };
 		33ED77912C171B55002AFBEB /* CitiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesViewController.swift; sourceTree = "<group>"; };
 		33ED77932C17844F002AFBEB /* SignUpSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpSignInViewController.swift; sourceTree = "<group>"; };
+		33ED77952C18AF69002AFBEB /* ViewPopularTripsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPopularTripsViewController.swift; sourceTree = "<group>"; };
+		33ED77972C18B2A0002AFBEB /* PopularAttractionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularAttractionDetailsViewController.swift; sourceTree = "<group>"; };
+		33ED77992C18D29E002AFBEB /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -364,6 +370,9 @@
 				3399619A2BE14D9D00791F81 /* TripViewCollectionViewCell.xib */,
 				33A937102BEB5E8D009A760B /* YourTripsCollectionViewCell.swift */,
 				33A937112BEB5E8D009A760B /* YourTripsCollectionViewCell.xib */,
+				33ED77952C18AF69002AFBEB /* ViewPopularTripsViewController.swift */,
+				33ED77972C18B2A0002AFBEB /* PopularAttractionDetailsViewController.swift */,
+				33ED77992C18D29E002AFBEB /* ReviewTableViewCell.swift */,
 			);
 			path = "Home Screen";
 			sourceTree = "<group>";
@@ -510,6 +519,7 @@
 				339961942BE1332800791F81 /* CategoryCollectionViewCell.swift in Sources */,
 				3399619B2BE14D9D00791F81 /* TripViewCollectionViewCell.swift in Sources */,
 				33A9370A2BEAB281009A760B /* WeatherModel.swift in Sources */,
+				33ED779A2C18D29E002AFBEB /* ReviewTableViewCell.swift in Sources */,
 				339961AF2BEA503500791F81 /* ImageOverlayTableViewCell.swift in Sources */,
 				33E410E62BD8C6030058EA3D /* FirebaseController.swift in Sources */,
 				33E410E42BD8C5E40058EA3D /* DatabaseProtocol.swift in Sources */,
@@ -519,6 +529,7 @@
 				331A2D862BD92E8D00E62149 /* HomeScreenViewController.swift in Sources */,
 				33C164A62BFDD80C00AF9A30 /* ViewAllTripsViewController.swift in Sources */,
 				33ED77902C166735002AFBEB /* CountryDetail.swift in Sources */,
+				33ED77962C18AF69002AFBEB /* ViewPopularTripsViewController.swift in Sources */,
 				33ED77942C17844F002AFBEB /* SignUpSignInViewController.swift in Sources */,
 				33ED77872C15D3FF002AFBEB /* ItineraryDetailsViewController.swift in Sources */,
 				339961A12BE1609300791F81 /* TripViewDetailsViewController.swift in Sources */,
@@ -529,6 +540,7 @@
 				339961A42BE160B200791F81 /* TripGalleryCollectionViewCell.swift in Sources */,
 				3372305A2BB8CD7A00E3E828 /* AppDelegate.swift in Sources */,
 				339961AD2BE27F0800791F81 /* SubtitleTableViewCell.swift in Sources */,
+				33ED77982C18B2A0002AFBEB /* PopularAttractionDetailsViewController.swift in Sources */,
 				339961962BE1356300791F81 /* TripCategory.swift in Sources */,
 				33CC6D242BD66A0300F19388 /* SemiCircleView.swift in Sources */,
 				331A2D892BD94F2E00E62149 /* Users.swift in Sources */,
@@ -698,6 +710,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Tripzo -Travel Planner Application/Tripzo -Travel Planner Application.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2Q727WGKFC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Tripzo -Travel Planner Application/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
@@ -727,6 +740,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Tripzo -Travel Planner Application/Tripzo -Travel Planner Application.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2Q727WGKFC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Tripzo -Travel Planner Application/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";

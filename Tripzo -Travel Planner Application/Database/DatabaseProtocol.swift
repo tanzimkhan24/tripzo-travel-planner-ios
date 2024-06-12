@@ -36,8 +36,6 @@ protocol DatabaseProtocol: AnyObject {
     func getItineraries(completion: @escaping (Result<[Itinerary], Error>) -> Void)
     
     func addUser(name: String?, phoneNumber: String?, country: String?, gender: String?, email: String?)
-    func signInWithGoogle(presentingViewController: UIViewController)
-    func signInWithFacebook(from viewController: UIViewController)
     func signInWithEmail(email: String, password: String)
     func isUserSignedIn() -> Bool
     func signOut()

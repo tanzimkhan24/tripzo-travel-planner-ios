@@ -50,6 +50,7 @@ class PlacesViewController: UIViewController, FloatingPanelControllerDelegate, M
         configureConstraints()
         setupFloatingPanel()
         showCurrentLocation()
+        setupNavigationBar()
     }
     
     func setupUI() {
@@ -65,6 +66,25 @@ class PlacesViewController: UIViewController, FloatingPanelControllerDelegate, M
             mapView.rightAnchor.constraint(equalTo: view.rightAnchor),
             mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    func setupNavigationBar() {
+        guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
+              let statusBarHeight = window.windowScene?.statusBarManager?.statusBarFrame.height else {
+            return
+        }
+
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: (navigationController?.navigationBar.frame.height)! + statusBarHeight)
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        view.addSubview(blurEffectView)
+        view.bringSubviewToFront(navigationController!.navigationBar)
+
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
     }
     
     func setupFloatingPanel() {
